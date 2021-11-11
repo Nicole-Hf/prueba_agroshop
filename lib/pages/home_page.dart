@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          child: Text('Aquí viene el catálogo'),
+          child: Text('Catálogo de productos y menú'),
         ),
       ),
     );
