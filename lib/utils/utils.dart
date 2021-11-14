@@ -11,6 +11,7 @@ class CustomTheme {
   static final Color colorDarkGreen = Color.fromRGBO(51, 122, 61, 1.0);
   static final Color colorRed = Color.fromRGBO(175, 76, 80, 1.0);
   static const Color info = Color.fromRGBO(0, 188, 212, 1.0);
+  static const Color colotBlack = Color.fromRGBO(0, 0, 0, 1.0);
   static final ThemeData theme = ThemeData.light().copyWith(
     primaryColor: colorGreen,);
 }

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  static final String routeName = '/';
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('AgroShop'),
-      ),
+    return const Scaffold(
+      backgroundColor: Colors.blue,
       body: Center(
-        child: Container(
-          child: Text('Catálogo de productos y menú'),
-        ),
+        child: Text('Home Screen'),
       ),
     );
   }

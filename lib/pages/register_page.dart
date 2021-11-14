@@ -1,139 +1,156 @@
-import 'dart:ui';
+import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/utils/utils.dart';
+import 'package:prueba_agroshop/pages/home_page.dart';
+import 'package:prueba_agroshop/pages/login_page.dart';
 
-class RegisterPage extends StatelessWidget {
-  static final routeName = 'register';
+import 'package:http/http.dart' as http;
+import 'package:prueba_agroshop/services/auth_services.dart';
+import 'package:prueba_agroshop/services/globals.dart';
+import 'package:prueba_agroshop/utils/rounded_button.dart';
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
+
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  String _email = '';
+  String _password = '';
+  String _name = '';
+
+  createAccountPressed() async {
+    bool emailValid = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(_email);
+    if (emailValid) {
+      http.Response response =
+          await AuthServices.register(_name, _email, _password);
+      Map responseMap = jsonDecode(response.body);
+      if (response.statusCode == 201) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const HomePage(),
+            ));
+      } else {
+        errorSnackBar(context, responseMap.values.first[0]);
+      }
+    } else {
+      errorSnackBar(context, 'email not valid');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Stack(
-          children: <Widget>[
-            //BACKGROUND
-            Container(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          centerTitle: true,
+          elevation: 0,
+          title: const Text(
+            'Registro',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        body: Stack(children: <Widget>[
+          Container(
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/onboarding-agro.jpg"),
-                  fit: BoxFit.cover))),
-            //Datos
-            Positioned(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/onboarding.png"),
+                      fit: BoxFit.cover))),
+          Positioned(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Card(
-                      elevation: 4.0,
-                      color: Colors.white,
-                      margin: EdgeInsets.only(left: 20, right: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            //Name
-                            TextField(
-                              style: TextStyle(
-                                color: Color(0xFF0000000)),
-                                //controller: mailController,
-                                cursorColor: Color(0xFF9b9b9b),
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.account_circle,
-                                    color: Colors.grey,
-                                  ),
-                                  hintText: "Nombre completo",
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFF9b9b9b),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal
-                                  ),
-                                ),
-                            ),
-                            //Email
-                            TextField(
-                              style: TextStyle(
-                                color: Color(0xFF0000000)),
-                                //controller: mailController,
-                                cursorColor: Color(0xFF9b9b9b),
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.mail,
-                                    color: Colors.grey,
-                                  ),
-                                  hintText: "Email",
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFF9b9b9b),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal
-                                  ),
-                                ),
-                            ),
-                            //Password
-                            TextField(
-                              style: TextStyle(color: Color(0xFF000000)),
-                              cursorColor: Color(0xFF9b9b9b),
-                              //controller: passwordController,
-                              keyboardType: TextInputType.text,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.vpn_key,
-                                  color: Colors.grey,
-                                ),
-                                hintText: "Password",
-                                hintStyle: TextStyle(
-                                  color: Color(0xFF9b9b9b),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal),
-                                ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Card(
+                        elevation: 4.0,
+                        color: Colors.white,
+                        margin: EdgeInsets.only(left: 20, right: 20),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
                               ),
-                            //Register Button
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: FlatButton(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 8, bottom: 8, left: 10, right:10),
-                                  child: Text(
-                                    //_isLoading? 'Loging...' : 'Login',
-                                    'Crear cuenta',
-                                    textDirection: TextDirection.ltr,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15.0,
-                                      decoration: TextDecoration.none,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
+                              TextField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Nombre Completo',
                                 ),
-                                color: Color(0xFF4C9900),
-                                disabledColor: Colors.grey,
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(20.0)),
-                                onPressed: () {
-                                  Navigator.pushReplacementNamed(context, '/');
+                                onChanged: (value) {
+                                  _name = value;
                                 },
                               ),
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              TextField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Email',
+                                ),
+                                onChanged: (value) {
+                                  _email = value;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              TextField(
+                                obscureText: true,
+                                decoration: const InputDecoration(
+                                  hintText: 'Password',
+                                ),
+                                onChanged: (value) {
+                                  _password = value;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              RoundedButton(
+                                btnText: 'Crear Cuenta',
+                                onBtnPressed: () => createAccountPressed(),
+                              ),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const LoginPage(),
+                                      ));
+                                },
+                                child: const Text(
+                                  '¿Ya tienes una cuenta?',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+                      )
+                    ],
+                  )
+                )
+              )
+            ]
+          )
+        );
   }
 }
-
