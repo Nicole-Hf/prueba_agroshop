@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_email.isNotEmpty && _password.isNotEmpty) {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
-      if (response.statusCode != 401) {
+      if (response.statusCode == 200) {
         Navigator.push(
             context,
             MaterialPageRoute(

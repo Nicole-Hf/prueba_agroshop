@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
       http.Response response =
           await AuthServices.register(_name, _email, _password);
       Map responseMap = jsonDecode(response.body);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         Navigator.push(
             context,
             MaterialPageRoute(
