@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/pages/register_page.dart';
-import 'package:prueba_agroshop/utils/utils.dart';
 
 class OnboardingPage extends StatelessWidget {
   static final routeName = 'onboarding';

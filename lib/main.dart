@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:prueba_agroshop/pages/home_page.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
-import 'package:prueba_agroshop/pages/register_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: OnboardingPage.routeName,
       routes: {
+        'home':  (context) => const HomePage(),
         //HomePage.routeName: (_) => HomePage(),
         OnboardingPage.routeName: (_) => OnboardingPage(),
         //LoginPage.routeName: (_) => LoginPage(),

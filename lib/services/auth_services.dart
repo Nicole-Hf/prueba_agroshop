@@ -10,6 +10,7 @@ class AuthServices {
       "name": name,
       "email": email,
       "password": password,
+      "role_id": 2,
     };
     var body = json.encode(data);
     //var url = Uri.parse(baseURL + 'auth/register');
