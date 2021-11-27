@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         errorSnackBar(context, responseMap.values.first);
       }
     } else {
-      errorSnackBar(context, 'enter all required fields');
+      errorSnackBar(context, 'Enter all required fields');
     }
   }
 

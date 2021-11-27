@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:prueba_agroshop/datas/menu_items.dart';
+import 'package:prueba_agroshop/model/menu_item.dart';
+import 'package:prueba_agroshop/pages/onboarding_page.dart';
 import 'package:prueba_agroshop/utils/Theme.dart';
 
 /*class HomePage extends StatelessWidget {
@@ -67,6 +70,14 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
             ),
           ),
+          actions: [
+            PopupMenuButton<MenuItem>(
+              onSelected: (item) => onSelected(context, item),
+              itemBuilder: (context) => [
+                ...MenuItems.itemFirst.map(buildItem).toList(),
+              ],
+            ),
+          ],
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -89,8 +100,8 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: MaterialColors.black,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.delivery_dining_outlined),
+            label: 'My orders',
             backgroundColor: MaterialColors.black,
           ),
         ],
@@ -99,5 +110,29 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
+    value: item,
+    child: Row(
+      children: [
+        Icon(item.icon,
+        color: Colors.black,
+        size: 20),
+        const SizedBox(width: 12),
+        Text(item.text),
+      ],
+    ),
+  );
+
+  void onSelected(BuildContext context, MenuItem item) {
+    switch(item) {
+      case MenuItems.itemLogout:
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => OnboardingPage()), 
+          (route) => false
+        );
+      break;
+    }
   }
 }
