@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/datas/menu_items.dart';
 import 'package:prueba_agroshop/model/menu_item.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
+import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/utils/Theme.dart';
 
 /*class HomePage extends StatelessWidget {
@@ -31,11 +32,9 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
+  //static const List<Widget> _widgetOptions = <Widget>[
+  List<Widget> _widgetOptions = [
+    ProductoPage(),
     Text(
       'Index 1: Lista de deseos',
       style: optionStyle,
