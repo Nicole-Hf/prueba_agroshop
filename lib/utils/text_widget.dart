@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:prueba_agroshop/utils/Theme.dart';
+
+import 'Theme.dart';
 
 class TextWidget extends StatelessWidget {
   final String text;
@@ -11,7 +14,8 @@ class TextWidget extends StatelessWidget {
     required this.text,
     required this.fontSize,
     this.isUnderLine = false,
-    this.color = const Color(0xFF363f93)
+    //this.color = const Color(0xFF363f93)
+    this.color = const Color.fromRGBO(76, 175, 80, 1.0)
   }) : super(key: key);
 
   @override

@@ -5,6 +5,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CallApi {
+  final String _imgUrl='http://10.0.2.2:8000/api/image/';
+
+  getImage(){
+    return _imgUrl;
+  }
+
   postData(data, apiUrl) async {
     var fullUrl = baseURL + apiUrl + await _getToken();
     return await http.post(Uri.parse(fullUrl),

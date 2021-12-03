@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 //import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/cupertino.dart';
-//import 'package:prueba_agroshop/model/categoria.dart';
+import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/services/api.dart';
+import 'package:prueba_agroshop/utils/Theme.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +21,7 @@ class ProductoPage extends StatefulWidget {
 
 class _ProductoPageState extends State<ProductoPage> {
   var productos = <ProductoInfo>[];
+  var categorias = <Categoria>[];
   
   @override
   void initState() {
@@ -33,19 +36,19 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   _initData() async {
-    await CallApi().getPublicData("allproducts").then((response) {
+    await CallApi().getPublicData("someproducts").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         productos = list.map((model) => ProductoInfo.fromJson(model)).toList();
       });
     });
 
-    /*await CallApi().getPublicData("allcategories").then((response) {
+    await CallApi().getPublicData("allcategories").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         categorias = list.map((model) => Categoria.fromJson(model)).toList();
       });
-    });*/
+    });
   }
 
   @override
@@ -63,13 +66,13 @@ class _ProductoPageState extends State<ProductoPage> {
       body: Column(
         children: [
           SizedBox(height: height * 0.02,),
-          /*Container(
+          Container(
             height: 80,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SearchBar(),
             )
-          ),*/
+          ),
           Container(
             padding: const EdgeInsets.only(left: 20, right: 30),
             child: Row(
@@ -77,7 +80,7 @@ class _ProductoPageState extends State<ProductoPage> {
               children: [
                 TextWidget(
                   text: "Categorías", 
-                  fontSize: 30,
+                  fontSize: 25,
                 ),
                 Row(
                   children: [
@@ -127,8 +130,11 @@ class _ProductoPageState extends State<ProductoPage> {
                             Card(
                               semanticContainer: true,
                               clipBehavior: Clip.antiAliasWithSaveLayer,
-                              child: Image.network(productos[i].imagen,
-                              fit: BoxFit.contain,),
+                              //child: Image.network(productos[i].imagen, fit: BoxFit.contain,),
+                              child: Image.network(
+                                "http://10.0.2.2:8000" + productos[i].imagen.toString(),
+                                fit: BoxFit.contain,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -137,9 +143,10 @@ class _ProductoPageState extends State<ProductoPage> {
                             TextWidget(
                               text: productos[i].nombre, 
                               fontSize: 20,
+                              color: MaterialColors.black,
                             ),
                             TextWidget(
-                              text: productos[i].precio, 
+                              text: "Bs.-" + productos[i].precio, 
                               fontSize: 16, 
                               color: Color(0xFFa9b3bd)
                             )
