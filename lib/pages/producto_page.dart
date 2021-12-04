@@ -81,6 +81,34 @@ class _ProductoPageState extends State<ProductoPage> {
             )
           ),
           Container(
+            padding: const EdgeInsets.only(left: 20, right: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextWidget(
+                  text: "Categories", 
+                  fontSize: 25,
+                ),
+                Row(
+                  children: [
+                    TextWidget(
+                      text: "All Categories", 
+                      fontSize: 16, 
+                      color: Colors.grey,
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.arrow_forward_ios, 
+                        color: Colors.grey, 
+                        size: 16),
+                      onPressed: (){ } 
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Container(
             padding: EdgeInsets.symmetric(vertical: height * 0.015),
             height: height * 0.13,
             child: ListView.builder(
@@ -91,10 +119,11 @@ class _ProductoPageState extends State<ProductoPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Container(
+                      height: 80,
                       width: width * 0.26,
                       decoration: BoxDecoration(
-                        color: Colors.lightGreen.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(10)
+                        color: Colors.green.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                       padding: EdgeInsets.all(width * 0.02),
                       child: Column(
@@ -110,6 +139,7 @@ class _ProductoPageState extends State<ProductoPage> {
                 }
               )
           ),
+          SizedBox(height: height * 0.02,),
           Container(
             padding: const EdgeInsets.only(left: 20, right: 30),
             child: Row(
@@ -122,7 +152,7 @@ class _ProductoPageState extends State<ProductoPage> {
                 Row(
                   children: [
                     TextWidget(
-                      text: "ver todo", 
+                      text: "View All", 
                       fontSize: 16, 
                       color: Colors.grey,
                     ),
@@ -182,6 +212,30 @@ class _ProductoPageState extends State<ProductoPage> {
                               text: "Bs.-" + productos[i].precio, 
                               fontSize: 16, 
                               color: Color(0xFFa9b3bd)
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0, left: 8.0,),
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: GestureDetector(
+                                  child: (
+                                    listaCarrito == null ? 
+                                    Icon(
+                                      Icons.shopping_cart,
+                                      color: Colors.black,
+                                      size: 20,
+                                    ) : 
+                                    Icon(
+                                      Icons.shopping_cart,
+                                      color: Colors.green,
+                                      size: 20,
+                                    )
+                                  ),
+                                  onTap: () {
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
                             )
                           ] 
                         ),
