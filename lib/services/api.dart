@@ -48,4 +48,18 @@ class CallApi {
       return 'failed';
     }
   }
+
+  getProductsCategory(apiUrl, category) async {
+    http.Response response = await http.get(Uri.parse(baseURL + apiUrl + category));
+    try {
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return 'failed';
+      }
+    } catch (e) {
+      print(e);
+      return 'failed';
+    }
+  }
 }

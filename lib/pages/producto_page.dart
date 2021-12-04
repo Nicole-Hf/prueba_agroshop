@@ -22,6 +22,7 @@ class ProductoPage extends StatefulWidget {
 class _ProductoPageState extends State<ProductoPage> {
   var productos = <ProductoInfo>[];
   var categorias = <Categoria>[];
+  var filteredProducts = <ProductoInfo>[];
   
   @override
   void initState() {
@@ -36,10 +37,17 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   _initData() async {
-    await CallApi().getPublicData("someproducts").then((response) {
+    /*await CallApi().getPublicData("someproducts").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         productos = list.map((model) => ProductoInfo.fromJson(model)).toList();
+      });
+    });*/
+
+    await CallApi().getPublicData("someproducts").then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        productos = filteredProducts = list.map((model) => ProductoInfo.fromJson(model)).toList();
       });
     });
 
@@ -48,6 +56,12 @@ class _ProductoPageState extends State<ProductoPage> {
         Iterable list = json.decode(response.body);
         categorias = list.map((model) => Categoria.fromJson(model)).toList();
       });
+    });
+  }
+
+  void _filterProducts(value) {
+    setState(() {
+      filteredProducts = productos.where((productos) => productos.categoria == value).toList();
     });
   }
 
@@ -65,21 +79,54 @@ class _ProductoPageState extends State<ProductoPage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: height * 0.02,),
+          SizedBox(height: height * 0.01,),
           Container(
-            height: 80,
+            height: 10,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SearchBar(),
             )
           ),
+          Expanded(
+            child: Container(
+              height: height * 0.008,
+              padding: EdgeInsets.symmetric(vertical: height * 0.015),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: categorias == null ? 0 : categorias.length,
+                itemBuilder: (_, c) {
+                  return categorias.length == 0 ? CircularProgressIndicator() : 
+                  Container(
+                    //padding: const EdgeInsets.only(left: 10, right: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.green, // foreground
+                          ),
+                          onPressed: () { },
+                          child: TextWidget(
+                            text: categorias[c].nombre, 
+                            fontSize: 16,
+                            color: Colors.black,
+                          )
+                        )
+                      ],
+                    ),
+                  ); 
+                },
+              )
+            )
+          ),
           Container(
+            height: height * 0.04,
             padding: const EdgeInsets.only(left: 20, right: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextWidget(
-                  text: "Categorías", 
+                  text: "Productos Populares", 
                   fontSize: 25,
                 ),
                 Row(
@@ -90,13 +137,11 @@ class _ProductoPageState extends State<ProductoPage> {
                       color: Colors.grey,
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_forward_ios, 
                         color: Colors.grey, 
                         size: 16),
-                      onPressed: (){
-
-                      } 
+                      onPressed: (){ } 
                     )
                   ],
                 )
@@ -130,7 +175,6 @@ class _ProductoPageState extends State<ProductoPage> {
                             Card(
                               semanticContainer: true,
                               clipBehavior: Clip.antiAliasWithSaveLayer,
-                              //child: Image.network(productos[i].imagen, fit: BoxFit.contain,),
                               child: Image.network(
                                 "http://10.0.2.2:8000" + productos[i].imagen.toString(),
                                 fit: BoxFit.contain,

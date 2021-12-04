@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ProductoInfo {
 
   ProductoInfo({
@@ -10,7 +8,8 @@ class ProductoInfo {
     required this.stock,
     required this.imagen,
     required this.empresa_id, 
-    required this.subcategoria_id
+    required this.subcategoria_id,
+    required this.categoria
   });
 
 
@@ -22,6 +21,7 @@ class ProductoInfo {
   final String imagen;
   final int empresa_id;
   final int subcategoria_id;
+  final int categoria;
 
   ProductoInfo.fromJson(Map json)
       : id = json['id'],
@@ -31,7 +31,8 @@ class ProductoInfo {
         imagen = json['imagen'],
         stock = json['stock'],
         empresa_id = json['empresa_id'],
-        subcategoria_id = json['subcategoria_id'];
+        subcategoria_id = json['subcategoria_id'],
+        categoria = json['categoria'];
 
   Map toJson() {
     return {
@@ -43,6 +44,7 @@ class ProductoInfo {
       'stock': stock,
       'empresa_id': empresa_id,
       'subcategoria_id': subcategoria_id,
+      'categoria': categoria,
     };
   }
 }
