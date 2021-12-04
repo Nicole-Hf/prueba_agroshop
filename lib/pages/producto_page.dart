@@ -23,6 +23,7 @@ class _ProductoPageState extends State<ProductoPage> {
   var productos = <ProductoInfo>[];
   var categorias = <Categoria>[];
   var filteredProducts = <ProductoInfo>[];
+  var listaCarrito = <ProductoInfo>[];
   
   @override
   void initState() {
@@ -37,13 +38,6 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   _initData() async {
-    /*await CallApi().getPublicData("someproducts").then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        productos = list.map((model) => ProductoInfo.fromJson(model)).toList();
-      });
-    });*/
-
     await CallApi().getPublicData("someproducts").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
@@ -79,48 +73,44 @@ class _ProductoPageState extends State<ProductoPage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: height * 0.01,),
           Container(
-            height: 10,
+            height: 80,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SearchBar(),
             )
           ),
-          Expanded(
-            child: Container(
-              height: height * 0.008,
-              padding: EdgeInsets.symmetric(vertical: height * 0.015),
-              child: ListView.builder(
+          Container(
+            padding: EdgeInsets.symmetric(vertical: height * 0.015),
+            height: height * 0.13,
+            child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: categorias == null ? 0 : categorias.length,
                 itemBuilder: (_, c) {
                   return categorias.length == 0 ? CircularProgressIndicator() : 
-                  Container(
-                    //padding: const EdgeInsets.only(left: 10, right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          style: TextButton.styleFrom(
-                            primary: Colors.green, // foreground
-                          ),
-                          onPressed: () { },
-                          child: TextWidget(
-                            text: categorias[c].nombre, 
-                            fontSize: 16,
-                            color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Container(
+                      width: width * 0.26,
+                      decoration: BoxDecoration(
+                        color: Colors.lightGreen.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      padding: EdgeInsets.all(width * 0.02),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            categorias[c].nombre,
                           )
-                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ); 
-                },
+                  );
+                }
               )
-            )
           ),
           Container(
-            height: height * 0.04,
             padding: const EdgeInsets.only(left: 20, right: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,7 +146,6 @@ class _ProductoPageState extends State<ProductoPage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: productos == null ? 0 : productos.length,
                   itemBuilder: (_, i) {
-                    // debugPrint(productos[i].imagen);
                     return GestureDetector(
                       onTap: () {
                         /*Navigator.push(context,
