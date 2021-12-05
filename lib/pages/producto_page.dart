@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
+import 'package:prueba_agroshop/pages/pedido_lista.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/utils/Theme.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
@@ -70,9 +71,45 @@ class _ProductoPageState extends State<ProductoPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 30,
+        //toolbarHeight: 30,
         backgroundColor: Color(0xFFfffff),
         elevation: 0.0,
+        //probando
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0, top: 8.0),
+            child: GestureDetector(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  Icon(Icons.shopping_cart, size: 38, color: Colors.black,),
+                  if (listaCarrito.length > 0) 
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2.0),
+                      child: CircleAvatar(
+                        radius: 8.0,
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                        child: Text(
+                          listaCarrito.length.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              onTap: () {
+                if (listaCarrito.isNotEmpty)
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Cart(listaCarrito),
+                  ),
+                );
+              },
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -184,6 +221,7 @@ class _ProductoPageState extends State<ProductoPage> {
                 itemCount: productos == null ? 0 : productos.length,
                 itemBuilder: (_, i) {
                   var item = productos[i];
+                  productos[i].cantidad = 0;
                   return GestureDetector(
                     onTap: () {
                       /*Navigator.push(context,
@@ -274,7 +312,6 @@ class _ProductoPageState extends State<ProductoPage> {
                                             child: ((!listaDeseos.contains(item))
                                               ? Icon(
                                                   Icons.favorite_outline,
-                                                  //color: Colors.green,
                                                   size: 33,
                                                 )
                                               : Icon(
@@ -285,10 +322,10 @@ class _ProductoPageState extends State<ProductoPage> {
                                             ),
                                             onTap: () {
                                               setState(() {
-                                                if (!listaDeseos.contains(item))
-                                                  listaDeseos.add(item);
-                                                else
-                                                  listaDeseos.remove(item);
+                                                if (!listaDeseos.contains(item))                                                  
+                                                  listaDeseos.add(item);                                       
+                                                else                                             
+                                                  listaDeseos.remove(item);                                                
                                               });
                                             },
                                           ),
@@ -310,10 +347,14 @@ class _ProductoPageState extends State<ProductoPage> {
                                             ),
                                             onTap: () {
                                               setState(() {
-                                                if (!listaCarrito.contains(item))
+                                                if (!listaCarrito.contains(item)) {                                                  
                                                   listaCarrito.add(item);
-                                                else
+                                                  productos[i].cantidad++;
+                                                }                                                
+                                                else {                                                 
                                                   listaCarrito.remove(item);
+                                                  productos[i].cantidad--;
+                                                }                                               
                                               });
                                             },
                                           ),

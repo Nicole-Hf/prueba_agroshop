@@ -5,21 +5,6 @@ import 'package:prueba_agroshop/pages/onboarding_page.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/utils/Theme.dart';
 
-/*class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Text('Home Screen'),
-      ),
-    );
-  }
-}*/
-
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -30,6 +15,7 @@ class HomePage extends StatefulWidget {
 /// This is the private State class that goes with HomePage.
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   //static const List<Widget> _widgetOptions = <Widget>[
@@ -97,6 +83,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.add_shopping_cart_sharp),
             label: 'Cart',
             backgroundColor: MaterialColors.black,
+            
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.delivery_dining_outlined),
