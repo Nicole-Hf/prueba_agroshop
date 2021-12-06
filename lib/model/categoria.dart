@@ -8,6 +8,7 @@ class Categoria {
 
   final int id;
   final String nombre;
+  //late List<Subcategoria> listaSub;
 
   Categoria.fromJson(Map json)
       : id = json['id'],

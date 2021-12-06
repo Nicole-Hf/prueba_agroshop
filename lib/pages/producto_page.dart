@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
+import 'package:prueba_agroshop/pages/allProductos.dart';
+import 'package:prueba_agroshop/pages/categoria_page.dart';
 import 'package:prueba_agroshop/pages/pedido_lista.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/utils/Theme.dart';
@@ -48,7 +50,7 @@ class _ProductoPageState extends State<ProductoPage> {
       });
     });
 
-    await CallApi().getPublicData("allcategories").then((response) {
+    await CallApi().getPublicData("somecategories").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         categorias = list.map((model) => Categoria.fromJson(model)).toList();
@@ -142,7 +144,11 @@ class _ProductoPageState extends State<ProductoPage> {
                         color: Colors.grey, 
                         size: 16
                       ),
-                      onPressed: () {}
+                      onPressed: () {
+                        Navigator.push(context,MaterialPageRoute(
+                            builder: (BuildContext context) => CategoriaPage(),
+                          ));
+                      }
                     )
                   ],
                 )
@@ -206,7 +212,11 @@ class _ProductoPageState extends State<ProductoPage> {
                         color: Colors.grey, 
                         size: 16
                       ),
-                      onPressed: () {}
+                      onPressed: () {
+                        Navigator.push(context,MaterialPageRoute(
+                            builder: (BuildContext context) => AllProducts(),
+                          ));
+                      }
                     )
                   ],
                 )
