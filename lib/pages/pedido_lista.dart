@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/producto.dart';
+import 'package:prueba_agroshop/utils/rounded_button.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
 
 class Cart extends StatefulWidget {
@@ -29,10 +30,10 @@ class _CartState extends State<Cart> {
       color: Colors.grey[200],
       child: Row(
         children: <Widget>[
-          Text("Total: \$${valorTotal(_cart)}",
+          Text("Total: \Bs.-${valorTotal(_cart)}",
             style: new TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 14.0,
+              fontSize: 20.0,
               color: Colors.black
             ),
           )
@@ -44,9 +45,9 @@ class _CartState extends State<Cart> {
   String valorTotal(List<ProductoInfo> listaProductos) {
     double total = 0.0;
 
-    /*for (int i = 0; i < listaProductos.length; i++) {
+    for (int i = 0; i < listaProductos.length; i++) {
       total = total + double.parse(listaProductos[i].precio) * listaProductos[i].cantidad;
-    }*/
+    }
 
     return total.toStringAsFixed(2);
   }
@@ -56,9 +57,16 @@ class _CartState extends State<Cart> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        //toolbarHeight: 30,
-        backgroundColor: Color(0xFFfffff),
-        elevation: 0.0,
+        backgroundColor: Colors.black,
+          centerTitle: true,
+          elevation: 0,
+          title: const Text(
+            'AgroShop',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
       ),
       body: GestureDetector(
         onVerticalDragUpdate: (details) {
@@ -72,6 +80,7 @@ class _CartState extends State<Cart> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              SizedBox(height: 20,),
               ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -96,7 +105,7 @@ class _CartState extends State<Cart> {
                                       "http://10.0.2.2:8000" + _cart[index].imagen,
                                       fit: BoxFit.contain
                                     )
-                                  )
+                                  ),
                                 ),
                                 Column(
                                   children: <Widget>[
@@ -143,11 +152,6 @@ class _CartState extends State<Cart> {
                                                 text: _cart[index].cantidad.toString(),
                                                 fontSize: 22,
                                                 color: Colors.white
-                                                /*style: new TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 22.0,
-                                                  color: Colors.white
-                                                )*/
                                               ),
                                               IconButton(
                                                 onPressed: () {
@@ -173,20 +177,56 @@ class _CartState extends State<Cart> {
                                     fontSize: 24.0,
                                     color: Colors.black
                                   )
+                                ),
+                                Container(
+                                  child: IconButton( 
+                                    onPressed:() {
+                                      _deleteProduct(index);         
+                                    },
+                                    icon: Icon(Icons.cancel_outlined,
+                                    color: Colors.grey
+                                    )
+                                  )                                
                                 )
                               ],
                             )
                           ],
                         ),
                       ),
-                      Divider(color: Colors.purple,)
+                      Divider(color: Colors.greenAccent,)
                     ],
                   );  
                 }
               ),
               SizedBox(width: 10.0,),
               pagoTotal(_cart),
-              SizedBox(width: 20.0,)
+              SizedBox(width: 20.0,),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: SizedBox(
+                width: 220,
+                height: 60,
+                child: FlatButton(
+                textColor: Colors.white,
+                color: Colors.green,   
+                onPressed: () {
+                  //Navigator.push(context,MaterialPageRoute(
+                    //builder: (BuildContext context) => const RegisterPage(),
+                  //));              
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 8, right: 8, top: 10, bottom: 10),
+                  child: Text("Comprar",
+                  style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 22.0))),
+                  ),
+                ),
+              ),
             ],
           )
         )
@@ -203,6 +243,12 @@ class _CartState extends State<Cart> {
   _removeProduct(int index) {
     setState(() {
       _cart[index].cantidad--;
+    });
+  }
+
+  _deleteProduct(int index) {
+    setState(() {
+      _cart.remove(_cart[index]);
     });
   }
 }

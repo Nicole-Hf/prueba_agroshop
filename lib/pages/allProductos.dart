@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prueba_agroshop/datas/menu_items.dart';
+import 'package:prueba_agroshop/model/menu_item.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
@@ -49,6 +51,18 @@ class _AllProductsState extends State<AllProducts> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+          centerTitle: true,
+          elevation: 0,
+          title: const Text(
+            'AgroShop',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+      ),
       body: Container(
         color: Colors.white,
         child: SafeArea(
@@ -58,7 +72,7 @@ class _AllProductsState extends State<AllProducts> {
               SizedBox(
                 height: height * 0.02,
               ),
-              Container(
+              /*Container(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +97,7 @@ class _AllProductsState extends State<AllProducts> {
                   ),
               ],
             ),
-          ),
+          ),*/
           SizedBox(
             height: 15,
           ),

@@ -6,6 +6,7 @@ import 'package:prueba_agroshop/pages/home_page.dart';
 import 'package:prueba_agroshop/pages/login_page.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/services/auth_services.dart';
 import 'package:prueba_agroshop/services/globals.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
@@ -34,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => const HomePage(),
+              builder: (BuildContext context) => ProductoPage(),
             ));
       } else {
         errorSnackBar(context, responseMap.values.first[0]);
@@ -47,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        /*appBar: AppBar(
           backgroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
@@ -58,99 +59,96 @@ class _RegisterPageState extends State<RegisterPage> {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
+        ),*/
         body: Stack(children: <Widget>[
-          Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/onboarding.png"),
-                      fit: BoxFit.cover))),
-          Positioned(
-              child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Card(
-                        elevation: 4.0,
-                        color: Colors.white,
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              TextField(
-                                decoration: const InputDecoration(
-                                  hintText: 'Nombre Completo',
-                                ),
-                                onChanged: (value) {
-                                  _name = value;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              TextField(
-                                decoration: const InputDecoration(
-                                  hintText: 'Email',
-                                ),
-                                onChanged: (value) {
-                                  _email = value;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              TextField(
-                                obscureText: true,
-                                decoration: const InputDecoration(
-                                  hintText: 'Password',
-                                ),
-                                onChanged: (value) {
-                                  _password = value;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              RoundedButton(
-                                btnText: 'Crear Cuenta',
-                                onBtnPressed: () => createAccountPressed(),
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            const LoginPage(),
-                                      ));
-                                },
-                                child: const Text(
-                                  '¿Ya tienes una cuenta?',
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              )
-                            ],
+      Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/onboarding.png"),
+                  fit: BoxFit.cover))),
+      Positioned(
+          child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Card(
+                    elevation: 4.0,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
                           ),
-                        ),
-                      )
-                    ],
+                          TextField(
+                            decoration: const InputDecoration(
+                              hintText: 'Nombre Completo',
+                            ),
+                            onChanged: (value) {
+                              _name = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          TextField(
+                            decoration: const InputDecoration(
+                              hintText: 'Email',
+                            ),
+                            onChanged: (value) {
+                              _email = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          TextField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: 'Password',
+                            ),
+                            onChanged: (value) {
+                              _password = value;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          RoundedButton(
+                            btnText: 'Crear Cuenta',
+                            onBtnPressed: () => createAccountPressed(),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const LoginPage(),
+                                  ));
+                            },
+                            child: const Text(
+                              '¿Ya tienes una cuenta?',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 15)
+                        ],
+                      ),
+                    ),
                   )
-                )
-              )
-            ]
-          )
-        );
+                ],
+              )))
+    ]));
   }
 }

@@ -12,13 +12,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-/// This is the private State class that goes with HomePage.
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  //static const List<Widget> _widgetOptions = <Widget>[
   List<Widget> _widgetOptions = [
     ProductoPage(),
     Text(
@@ -26,25 +24,28 @@ class _HomePageState extends State<HomePage> {
       style: optionStyle,
     ),
     Text(
-      'Index 2: Carrito',
+      'Index 2: Mis Pedidos',
       style: optionStyle,
     ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
+    //OnboardingPage(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 4) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => OnboardingPage()), 
+          (route) => false
+        );
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         backgroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
@@ -63,7 +64,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ],
-      ),
+      ),*/
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -80,14 +81,18 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: MaterialColors.black,
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.delivery_dining_outlined),
+            label: 'My orders',
+            backgroundColor: MaterialColors.black,
+          ),
+          /*BottomNavigationBarItem(
             icon: Icon(Icons.add_shopping_cart_sharp),
             label: 'Cart',
             backgroundColor: MaterialColors.black,
-            
-          ),
+          ),*/
           BottomNavigationBarItem(
-            icon: Icon(Icons.delivery_dining_outlined),
-            label: 'My orders',
+            icon: Icon(Icons.logout),
+            label: 'Logout',
             backgroundColor: MaterialColors.black,
           ),
         ],
@@ -98,7 +103,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
+  /*PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
     value: item,
     child: Row(
       children: [
@@ -120,5 +125,5 @@ class _HomePageState extends State<HomePage> {
         );
       break;
     }
-  }
+  }*/
 }

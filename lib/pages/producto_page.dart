@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
-//import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
@@ -15,8 +14,7 @@ import 'package:prueba_agroshop/utils/text_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductoPage extends StatefulWidget {
-  //const ProductoPage({required Key key}) : super(key: key);
-  static const String route = 'catalogo';
+  static final routeName = 'producto';
 
   @override
   _ProductoPageState createState() => _ProductoPageState();
@@ -73,18 +71,32 @@ class _ProductoPageState extends State<ProductoPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        //toolbarHeight: 30,
-        backgroundColor: Color(0xFFfffff),
-        elevation: 0.0,
-        //probando
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => print('hi on menu icon'),
+            );
+          },
+        ),
+        backgroundColor: Colors.black,
+          centerTitle: true,
+          elevation: 0,
+          title: const Text(
+            'AgroShop',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0, top: 8.0),
             child: GestureDetector(
               child: Stack(
-                alignment: Alignment.topCenter,
+                alignment: Alignment.center,
                 children: <Widget>[
-                  Icon(Icons.shopping_cart, size: 38, color: Colors.black,),
+                  Icon(Icons.shopping_cart, size: 28, color: Colors.white,),
                   if (listaCarrito.length > 0) 
                     Padding(
                       padding: const EdgeInsets.only(left: 2.0),
@@ -115,45 +127,13 @@ class _ProductoPageState extends State<ProductoPage> {
       ),
       body: Column(
         children: [
+          SizedBox(height: 8,),
           Container(
             height: 80,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SearchBar(),
             )
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 20, right: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextWidget(
-                  text: "Categories",
-                  fontSize: 25,
-                ),
-                Row(
-                  children: [
-                    TextWidget(
-                      text: "All Categories",
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey, 
-                        size: 16
-                      ),
-                      onPressed: () {
-                        Navigator.push(context,MaterialPageRoute(
-                            builder: (BuildContext context) => CategoriaPage(),
-                          ));
-                      }
-                    )
-                  ],
-                )
-              ],
-            ),
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: height * 0.015),
@@ -359,11 +339,13 @@ class _ProductoPageState extends State<ProductoPage> {
                                               setState(() {
                                                 if (!listaCarrito.contains(item)) {                                                  
                                                   listaCarrito.add(item);
-                                                  productos[i].cantidad++;
+                                                  //productos[i].cantidad++;
+                                                  productos[i].cantidad = listaCarrito[i].cantidad = 1;
                                                 }                                                
                                                 else {                                                 
                                                   listaCarrito.remove(item);
-                                                  productos[i].cantidad--;
+                                                  //productos[i].cantidad--;
+                                                  productos[i].cantidad = listaCarrito[i].cantidad = 0;
                                                 }                                               
                                               });
                                             },
