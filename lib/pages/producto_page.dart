@@ -11,6 +11,7 @@ import 'package:prueba_agroshop/pages/pedido_lista.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/utils/Theme.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
+import 'package:prueba_agroshop/utils/widget_drawers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductoPage extends StatefulWidget {
@@ -71,14 +72,14 @@ class _ProductoPageState extends State<ProductoPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Builder(
+        /*leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () => print('hi on menu icon'),
             );
           },
-        ),
+        ),*/
         backgroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
@@ -125,6 +126,7 @@ class _ProductoPageState extends State<ProductoPage> {
           )
         ],
       ),
+      drawer: MenuLateral(),
       body: Column(
         children: [
           SizedBox(height: 8,),

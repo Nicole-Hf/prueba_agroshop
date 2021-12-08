@@ -211,7 +211,7 @@ class _CartState extends State<Cart> {
                 color: Colors.green,   
                 onPressed: () {
                   //Navigator.push(context,MaterialPageRoute(
-                    //builder: (BuildContext context) => const RegisterPage(),
+                    //builder: (BuildContext context) => const EnvioPage(),
                   //));              
                 },
                 shape: RoundedRectangleBorder(
