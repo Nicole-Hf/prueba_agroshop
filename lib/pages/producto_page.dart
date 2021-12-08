@@ -22,6 +22,7 @@ class ProductoPage extends StatefulWidget {
 }
 
 class _ProductoPageState extends State<ProductoPage> {
+  //creamos las variables donde se guardaran los datos
   var productos = <ProductoInfo>[];
   var categorias = <Categoria>[];
   var filteredProducts = <ProductoInfo>[];
@@ -40,6 +41,7 @@ class _ProductoPageState extends State<ProductoPage> {
     await _initData();
   }
 
+  //llamada a las API
   _initData() async {
     await CallApi().getPublicData("someproducts").then((response) {
       setState(() {
@@ -57,6 +59,7 @@ class _ProductoPageState extends State<ProductoPage> {
     });
   }
 
+  //proceso para filtrar productos por categorías
   void _filterProducts(value) {
     setState(() {
       filteredProducts =
@@ -72,14 +75,6 @@ class _ProductoPageState extends State<ProductoPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        /*leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () => print('hi on menu icon'),
-            );
-          },
-        ),*/
         backgroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
@@ -134,12 +129,14 @@ class _ProductoPageState extends State<ProductoPage> {
             height: 80,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
+              //aquí hacer el filtrado de productos
               child: SearchBar(),
             )
           ),
+          //contenedor para mostrar las categorías
           Container(
             padding: EdgeInsets.symmetric(vertical: height * 0.015),
-            height: height * 0.13,
+            height: height * 0.10,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: categorias == null ? 0 : categorias.length,
@@ -151,12 +148,12 @@ class _ProductoPageState extends State<ProductoPage> {
                       const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Container(
                       height: 80,
-                      width: width * 0.26,
+                      width: width * 0.30,
                       decoration: BoxDecoration(
                         color: Colors.green.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.all(width * 0.02),
+                      padding: EdgeInsets.symmetric(vertical: 2.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -214,6 +211,7 @@ class _ProductoPageState extends State<ProductoPage> {
                 itemBuilder: (_, i) {
                   var item = productos[i];
                   productos[i].cantidad = 0;
+                  //aquí poner la ruta para el detalle de productos
                   return GestureDetector(
                     onTap: () {
                       /*Navigator.push(context,
@@ -340,13 +338,11 @@ class _ProductoPageState extends State<ProductoPage> {
                                             onTap: () {
                                               setState(() {
                                                 if (!listaCarrito.contains(item)) {                                                  
-                                                  listaCarrito.add(item);
-                                                  //productos[i].cantidad++;
+                                                  listaCarrito.add(item);                                  
                                                   productos[i].cantidad = listaCarrito[i].cantidad = 1;
                                                 }                                                
                                                 else {                                                 
-                                                  listaCarrito.remove(item);
-                                                  //productos[i].cantidad--;
+                                                  listaCarrito.remove(item);                                                 
                                                   productos[i].cantidad = listaCarrito[i].cantidad = 0;
                                                 }                                               
                                               });

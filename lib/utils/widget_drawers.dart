@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
+import 'package:prueba_agroshop/pages/wishlist_page.dart';
 
 class MenuLateral extends StatelessWidget {
+  late List<ProductoInfo> _wishlist;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -13,7 +17,7 @@ class MenuLateral extends StatelessWidget {
           DrawerHeader(
             //Aca definimos el logo en el menu desplegable
             decoration: BoxDecoration(
-              color: Colors.blueGrey,
+              color: Colors.black,
             ),
             child: Column(
               children: [
@@ -49,7 +53,9 @@ class MenuLateral extends StatelessWidget {
             leading: Icon(Icons.delivery_dining_outlined),
             title: Text('Mis Pedidos'),
             onTap: () {
-              
+              Navigator.push(context, MaterialPageRoute(
+                builder: (BuildContext context) => Wishlist(_wishlist),
+              ));
             },
           ),
           ListTile(

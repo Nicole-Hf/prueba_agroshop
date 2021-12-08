@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/producto.dart';
-import 'package:prueba_agroshop/utils/rounded_button.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
 
 class Cart extends StatefulWidget {
   final List<ProductoInfo> _cart;
 
   Cart(this._cart);
-
 
   @override
   _CartState createState() => _CartState(this._cart);
@@ -30,7 +28,8 @@ class _CartState extends State<Cart> {
       color: Colors.grey[200],
       child: Row(
         children: <Widget>[
-          Text("Total: \Bs.-${valorTotal(_cart)}",
+          Text(
+            "Total: \Bs.-${valorTotal(_cart)}",
             style: new TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
@@ -58,15 +57,15 @@ class _CartState extends State<Cart> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
-          centerTitle: true,
-          elevation: 0,
-          title: const Text(
-            'AgroShop',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+        centerTitle: true,
+        elevation: 0,
+        title: const Text(
+          'AgroShop',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
+        ),
       ),
       body: GestureDetector(
         onVerticalDragUpdate: (details) {
@@ -125,14 +124,14 @@ class _CartState extends State<Cart> {
                                           height: 40,
                                           decoration: BoxDecoration(
                                             color: Colors.red[600],
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 6.0,
-                                                color: Colors.blue,
-                                                offset: Offset(0.0, 1.0),
-                                              )
-                                            ],
-                                            borderRadius: BorderRadius.all(Radius.circular(50.0),)
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 6.0,
+                                                  color: Colors.blue,
+                                                  offset: Offset(0.0, 1.0),
+                                                )
+                                              ],
+                                              borderRadius: BorderRadius.all(Radius.circular(50.0),)
                                           ),
                                           margin: EdgeInsets.only(top: 20.0),
                                           padding: EdgeInsets.all(2.0),
@@ -143,8 +142,8 @@ class _CartState extends State<Cart> {
                                               IconButton(
                                                 onPressed: () {
                                                   _removeProduct(index);
-                                                  valorTotal(_cart);
-                                                }, 
+                                                   valorTotal(_cart);
+                                                },
                                                 icon: Icon(Icons.remove),
                                                 color: Colors.white,
                                               ),
@@ -157,7 +156,7 @@ class _CartState extends State<Cart> {
                                                 onPressed: () {
                                                   _addProduct(index);
                                                   valorTotal(_cart);
-                                                }, 
+                                                },
                                                 icon: Icon(Icons.add),
                                                 color: Colors.yellow,
                                               ),
@@ -179,51 +178,55 @@ class _CartState extends State<Cart> {
                                   )
                                 ),
                                 Container(
-                                  child: IconButton( 
-                                    onPressed:() {
-                                      _deleteProduct(index);         
-                                    },
-                                    icon: Icon(Icons.cancel_outlined,
+                                  child: IconButton(
+                                    onPressed: () {
+                                    _deleteProduct(index);
+                                  },
+                                  icon: Icon(
+                                    Icons.cancel_outlined,
                                     color: Colors.grey
-                                    )
-                                  )                                
+                                  )
                                 )
-                              ],
-                            )
-                          ],
-                        ),
+                              )
+                            ],
+                          )
+                        ],
                       ),
-                      Divider(color: Colors.greenAccent,)
-                    ],
-                  );  
-                }
-              ),
+                    ),
+                    Divider(color: Colors.greenAccent,)
+                  ],
+                );
+              }),
               SizedBox(width: 10.0,),
               pagoTotal(_cart),
               SizedBox(width: 20.0,),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: SizedBox(
-                width: 220,
-                height: 60,
-                child: FlatButton(
-                textColor: Colors.white,
-                color: Colors.green,   
-                onPressed: () {
-                  //Navigator.push(context,MaterialPageRoute(
-                    //builder: (BuildContext context) => const EnvioPage(),
-                  //));              
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 8, right: 8, top: 10, bottom: 10),
-                  child: Text("Comprar",
-                  style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 22.0))),
+                  width: 220,
+                  height: 60,
+                  child: FlatButton(
+                    textColor: Colors.white,
+                    color: Colors.green,
+                    //aqui poner la ruta del formulario de envios
+                    onPressed: () {
+                      //Navigator.push(context,MaterialPageRoute(
+                      //builder: (BuildContext context) => const EnvioPage(),
+                      //));
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8, top: 10, bottom: 10),
+                      child: Text(
+                        "Comprar",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 22.0
+                        )
+                      )
+                    ),
                   ),
                 ),
               ),
@@ -234,6 +237,7 @@ class _CartState extends State<Cart> {
     );
   }
 
+//procesos para editar la lista del carrito
   _addProduct(int index) {
     setState(() {
       _cart[index].cantidad++;
