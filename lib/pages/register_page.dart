@@ -1,15 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/pages/home_page.dart';
 import 'package:prueba_agroshop/pages/login_page.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/services/auth_services.dart';
 import 'package:prueba_agroshop/services/globals.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
+import 'package:prueba_agroshop/variables.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -31,7 +29,12 @@ class _RegisterPageState extends State<RegisterPage> {
       http.Response response =
           await AuthServices.register(_name, _email, _password);
       Map responseMap = jsonDecode(response.body);
+      var dataUser = json.decode(response.body);
       if (response.statusCode == 200) {
+        idUserAutentificado = dataUser['id'];
+        nameUserAutentificado = dataUser['name'];
+        idClienteAutentificado = dataUser['cliente'];
+        idCarritoCliente = dataUser['carrito'];
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -48,21 +51,9 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /*appBar: AppBar(
-          backgroundColor: Colors.black,
-          centerTitle: true,
-          elevation: 0,
-          title: const Text(
-            'Registro',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),*/
-        body: Stack(children: <Widget>[
+      body: Stack(children: <Widget>[
       Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/images/onboarding.png"),
                   fit: BoxFit.cover))),
@@ -75,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Card(
                     elevation: 4.0,
                     color: Colors.white,
-                    margin: EdgeInsets.only(left: 20, right: 20),
+                    margin: const EdgeInsets.only(left: 20, right: 20),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     child: Padding(
@@ -142,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 15)
+                          const SizedBox(height: 15)
                         ],
                       ),
                     ),

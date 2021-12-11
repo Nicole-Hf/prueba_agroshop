@@ -1,20 +1,21 @@
 import 'dart:convert';
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:prueba_agroshop/model/carrito.dart';
 import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/pages/allProductos.dart';
-import 'package:prueba_agroshop/pages/categoria_page.dart';
-import 'package:prueba_agroshop/pages/pedido_lista.dart';
 import 'package:prueba_agroshop/services/api.dart';
-import 'package:prueba_agroshop/utils/Theme.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
 import 'package:prueba_agroshop/utils/widget_drawers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:prueba_agroshop/variables.dart';
 
+// ignore: use_key_in_widget_constructors
 class ProductoPage extends StatefulWidget {
+  // ignore: prefer_const_declarations
   static final routeName = 'producto';
 
   @override
@@ -26,7 +27,7 @@ class _ProductoPageState extends State<ProductoPage> {
   var productos = <ProductoInfo>[];
   var categorias = <Categoria>[];
   var filteredProducts = <ProductoInfo>[];
-  var listaCarrito = <ProductoInfo>[];
+  var listaCarrito = <Carrito>[];
   var listaDeseos = <ProductoInfo>[];
 
   @override
@@ -36,8 +37,6 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   _getProductos() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = localStorage.getString("user");
     await _initData();
   }
 
@@ -57,9 +56,17 @@ class _ProductoPageState extends State<ProductoPage> {
         categorias = list.map((model) => Categoria.fromJson(model)).toList();
       });
     });
+
+    await CallApi().getCarrito().then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        listaCarrito = list.map((model) => Carrito.fromJson(model)).toList();
+      });
+    }); 
   }
 
   //proceso para filtrar productos por categorías
+  // ignore: unused_element
   void _filterProducts(value) {
     setState(() {
       filteredProducts =
@@ -78,13 +85,8 @@ class _ProductoPageState extends State<ProductoPage> {
         backgroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
-          title: const Text(
-            'AgroShop',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          title: const Text('AgroShop',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0, top: 8.0),
@@ -92,156 +94,132 @@ class _ProductoPageState extends State<ProductoPage> {
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
+                  // ignore: prefer_const_constructors
                   Icon(Icons.shopping_cart, size: 28, color: Colors.white,),
-                  if (listaCarrito.length > 0) 
+                  if (listaCarrito.isNotEmpty) 
                     Padding(
                       padding: const EdgeInsets.only(left: 2.0),
                       child: CircleAvatar(
                         radius: 8.0,
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
-                        child: Text(
-                          listaCarrito.length.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0,),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
+                        child: Text(listaCarrito.length.toString(),
+                          // ignore: prefer_const_constructors
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.0,),),
+                  ),),],),
               onTap: () {
-                if (listaCarrito.isNotEmpty)
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Cart(listaCarrito),
-                  ),
-                );
+                //if (listaCarrito.isNotEmpty)
+                  //Navigator.of(context).push(MaterialPageRoute(
+                    //builder: (context) => Cart(listaCarrito),
+                  //),
+                //);
               },
-            ),
-          )
-        ],
-      ),
+        ),)],),
       drawer: MenuLateral(),
       body: Column(
         children: [
+          // ignore: prefer_const_constructors
           SizedBox(height: 8,),
+          // ignore: sized_box_for_whitespace
           Container(
             height: 80,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              //aquí hacer el filtrado de productos
+              // ignore: missing_required_param
               child: SearchBar(),
-            )
-          ),
-          //contenedor para mostrar las categorías
+          )),
           Container(
             padding: EdgeInsets.symmetric(vertical: height * 0.015),
             height: height * 0.10,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
+              // ignore: unnecessary_null_comparison
               itemCount: categorias == null ? 0 : categorias.length,
               itemBuilder: (_, c) {
-                return categorias.length == 0
+                return categorias.isEmpty
+                  // ignore: prefer_const_constructors
                   ? CircularProgressIndicator()
                   : Padding(
-                    padding:
-                      const EdgeInsets.symmetric(horizontal: 5.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Container(
                       height: 80,
                       width: width * 0.30,
                       decoration: BoxDecoration(
                         color: Colors.green.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                        borderRadius: BorderRadius.circular(20),),
+                      // ignore: prefer_const_constructors
                       padding: EdgeInsets.symmetric(vertical: 2.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            categorias[c].nombre,
-                          )
+                          Text(categorias[c].nombre,)
                         ],
-                      ),
-                    ),
-                  );
+                  ),),);
                 }
-            )
-          ),
-          SizedBox(
-            height: height * 0.02,
-          ),
+          )),
+          SizedBox(height: height * 0.02,),
           Container(
             padding: const EdgeInsets.only(left: 20, right: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextWidget(
-                  text: "Lastest Products",
-                  fontSize: 25,
-                ),
+                TextWidget(text: "Lastest Products", fontSize: 25,),
                 Row(
                   children: [
-                    TextWidget(
-                      text: "View All",
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
+                    TextWidget(text: "View All", fontSize: 16, color: Colors.grey,),
                     IconButton(
                       icon: const Icon(Icons.arrow_forward_ios,
                         color: Colors.grey, 
-                        size: 16
-                      ),
+                        size: 16),
                       onPressed: () {
                         Navigator.push(context,MaterialPageRoute(
-                            builder: (BuildContext context) => AllProducts(),
-                          ));
+                            builder: (BuildContext context) => AllProducts(),));
                       }
                     )
-                  ],
-                )
-              ],
-            ),
-          ),
+                ],)
+          ],),),
           Expanded(
+            // ignore: sized_box_for_whitespace
             child: Container(
               height: height * 0.27,
               child: PageView.builder(
                 controller: PageController(viewportFraction: .9),
+                // ignore: unnecessary_null_comparison
                 itemCount: productos == null ? 0 : productos.length,
                 itemBuilder: (_, i) {
                   var item = productos[i];
-                  productos[i].cantidad = 0;
-                  //aquí poner la ruta para el detalle de productos
                   return GestureDetector(
                     onTap: () {
                       /*Navigator.push(context,
                         MaterialPageRoute(builder: (context) => DetalleProductoPage(ProductoInfo))
                       );*/
                     },
-                    child: productos.length == 0
+                    child: productos.isEmpty
+                      // ignore: prefer_const_constructors
                       ? CircularProgressIndicator()
                       : Stack(
                         children: [
                           Positioned(
                             top: 35,
+                            // ignore: unnecessary_new
                             child: new Material(
                               elevation: 0.0,
+                              // ignore: unnecessary_new
                               child: new Container(
                                 height: 180.0,
                                 width: width * 0.85,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(0.0),
+                                  // ignore: unnecessary_new
                                   boxShadow: [ new BoxShadow(
                                     color: Colors.grey.withOpacity(0.3),
+                                    // ignore: prefer_const_constructors, unnecessary_new
                                     offset: new Offset(-10.0, 0.0),
                                     blurRadius: 20.0,
                                     spreadRadius: 4.0
-                                  )]
-                                ),
-                              ),
-                            )
-                          ),
+                                )]),
+                          ),)),
                           Positioned(
                             top: 0,
                             left: 10,
@@ -249,8 +227,7 @@ class _ProductoPageState extends State<ProductoPage> {
                               elevation: 10.0,
                               shadowColor: Colors.grey.withOpacity(0.5),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
+                                borderRadius: BorderRadius.circular(15.0),),
                               child: Container(
                                 height: 200,
                                 width: 150,
@@ -259,17 +236,12 @@ class _ProductoPageState extends State<ProductoPage> {
                                   image: DecorationImage(
                                     fit: BoxFit.fill,
                                     image: NetworkImage(
-                                      "http://10.0.2.2:8000" + productos[i].imagen.toString(),
-                                    )
-                                  ),
-                                )
-                              )
-                            )
-                          ),
+                                      "http://10.0.2.2:8000" + productos[i].imagen.toString(),)
+                          ),)))),
                           Positioned(
                             top: 45,
                             left: width * 0.4,
-                            child: Container(
+                            child: SizedBox(
                               height: 200,
                               width: 150,
                               child: Column(
@@ -278,21 +250,16 @@ class _ProductoPageState extends State<ProductoPage> {
                                   TextWidget(
                                     text: productos[i].nombre,
                                     fontSize: 20,
-                                    color: MaterialColors.black,
-                                  ),
+                                    color: Colors.black,),
                                   SizedBox(height: height * 0.02),
                                   TextWidget(
                                     text: "Bs.-" + productos[i].precio,
                                     fontSize: 16,
-                                    color: Color(0xFFa9b3bd)
-                                  ),
-                                  Divider(color: Colors.black),
+                                    color: const Color(0xFFa9b3bd)),
+                                  const Divider(color: Colors.black),
                                   SizedBox(height: height * 0.02),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 8.0,
-                                      left: 8.0,
-                                    ),
+                                    padding: const EdgeInsets.only(right: 8.0, left: 8.0,),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -300,30 +267,38 @@ class _ProductoPageState extends State<ProductoPage> {
                                           alignment: Alignment.bottomRight,
                                           child: GestureDetector(
                                             child: ((!listaDeseos.contains(item))
-                                              ? Icon(
+                                              ? const Icon(
                                                   Icons.favorite_outline,
-                                                  size: 33,
-                                                )
-                                              : Icon(
+                                                  size: 33,)
+                                              : const Icon(
                                                   Icons.favorite,
                                                   color: Colors.red,
-                                                  size: 33,
-                                                )
+                                                  size: 33,)
                                             ),
                                             onTap: () {
                                               setState(() {
-                                                if (!listaDeseos.contains(item))                                                  
-                                                  listaDeseos.add(item);                                       
-                                                else                                             
-                                                  listaDeseos.remove(item);                                                
+                                                if (!listaDeseos.contains(item)) {
+                                                  listaDeseos.add(item);
+                                                } else {
+                                                  listaDeseos.remove(item);
+                                                }                                                
                                               });
                                             },
-                                          ),
-                                        ),
+                                        ),),
                                         Align(
                                           alignment: Alignment.bottomRight,
                                           child: GestureDetector(
-                                            child: ((!listaCarrito.contains(item))
+                                            child: ((!_containsProducto(productos[i].id))
+                                              ? const Icon(
+                                                  Icons.shopping_cart,
+                                                  color: Colors.black,
+                                                  size: 33,)
+                                              : const Icon(
+                                                  Icons.shopping_cart,
+                                                  color: Colors.green,
+                                                  size: 33,)
+                                            ),
+                                            /*((!listaCarrito.contains(item))
                                               ? Icon(
                                                   Icons.shopping_cart,
                                                   color: Colors.black,
@@ -334,37 +309,82 @@ class _ProductoPageState extends State<ProductoPage> {
                                                   color: Colors.green,
                                                   size: 33,
                                                 )
-                                            ),
+                                            ),*/
                                             onTap: () {
                                               setState(() {
-                                                if (!listaCarrito.contains(item)) {                                                  
-                                                  listaCarrito.add(item);                                  
+                                                if (!_containsProducto(productos[i].id)) {
+                                                  _addNewProduct(productos[i].id);                         
+                                                }                                                
+                                                else {                                                 
+                                                  int idcar = _obtenerID(productos[i].id);
+                                                  if (idcar != 0) {
+                                                    listaCarrito[idcar].cantidad--;
+                                                  }
+                                                }                                               
+                                              });
+                                              /*setState(() {
+                                                if (!listaCarrito.contains(item)) {                                                                                  
                                                   productos[i].cantidad = listaCarrito[i].cantidad = 1;
                                                 }                                                
                                                 else {                                                 
                                                   listaCarrito.remove(item);                                                 
                                                   productos[i].cantidad = listaCarrito[i].cantidad = 0;
                                                 }                                               
-                                              });
+                                              });*/
                                             },
-                                          ),
-                                        )
-                                      ]
-                                    )
-                                  )
-                                ],
-                              )
-                            )
-                          ),
-                        ],
-                      )
-                  );
+                                        ),)
+                                  ]))
+                          ],))),
+                  ],));
                 }
-              ),
-            )
-          )
-        ],
-      ),
-    );
+        ),))],
+    ),);
+  }
+
+  // ignore: unused_element
+  _addProducto(int productoID) {
+    setState(() {
+      int i = _obtenerID(productoID);
+      listaCarrito[i].cantidad++;
+    });
+  }
+
+  // ignore: unused_element
+  _removeProducto(int productoID) {
+    setState(() {
+      int i = _obtenerID(productoID);
+      listaCarrito[i].cantidad--;
+    });
+  }
+
+  _containsProducto(int productoID) {
+    for (int i = 1; i <= listaCarrito.length; i++) {
+      if (listaCarrito[i].productoid == productoID) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  _obtenerID(int productoID) {
+    for (int i = 1; i <= listaCarrito.length; i++) {
+      if (listaCarrito[i].productoid == productoID) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  _addNewProduct(int productoID) {
+    setState(() {
+      var item = Carrito(
+        id: listaCarrito.length + 1, 
+        carritoid: idCarritoCliente, 
+        productoid: productoID, 
+        cantidad: 1, 
+        //precio: productos[productoID].precio, 
+        subtotal: productos[productoID].precio); 
+      listaCarrito.add(item);
+    });
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/producto.dart';
-import 'package:prueba_agroshop/utils/text_widget.dart';
 
 class Cart extends StatefulWidget {
   final List<ProductoInfo> _cart;
 
+  // ignore: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
   Cart(this._cart);
 
   @override
+  // ignore: unnecessary_this, no_logic_in_create_state
   _CartState createState() => _CartState(this._cart);
 }
 
@@ -15,22 +16,24 @@ class _CartState extends State<Cart> {
   _CartState(this._cart);
   final _scrollController = ScrollController();
   var _firstScroll = true;
+  // ignore: prefer_final_fields
   bool _enable = false;
 
+  // ignore: prefer_final_fields
   List<ProductoInfo> _cart;
 
   Container pagoTotal(List<ProductoInfo> _cart) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.only(left: 120),
+      padding: const EdgeInsets.only(left: 120),
       height: 70,
       width: 400,
       color: Colors.grey[200],
       child: Row(
         children: <Widget>[
           Text(
-            "Total: \Bs.-${valorTotal(_cart)}",
-            style: new TextStyle(
+            "Total: Bs.-${valorTotal(_cart)}",
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
               color: Colors.black
@@ -44,9 +47,9 @@ class _CartState extends State<Cart> {
   String valorTotal(List<ProductoInfo> listaProductos) {
     double total = 0.0;
 
-    for (int i = 0; i < listaProductos.length; i++) {
+    /*for (int i = 0; i < listaProductos.length; i++) {
       total = total + double.parse(listaProductos[i].precio) * listaProductos[i].cantidad;
-    }
+    }*/
 
     return total.toStringAsFixed(2);
   }
@@ -79,14 +82,13 @@ class _CartState extends State<Cart> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: _cart.length,
                 itemBuilder: (context, index) {
-                  final String imagen = _cart[index].imagen;
                   var item = _cart[index];
                   return Column(
                     children: <Widget>[
@@ -97,25 +99,21 @@ class _CartState extends State<Cart> {
                             Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 100,
                                     height: 100,
-                                    child: new Image.network(
-                                      "http://10.0.2.2:8000" + _cart[index].imagen,
+                                    child: Image.network("http://10.0.2.2:8000" + _cart[index].imagen,
                                       fit: BoxFit.contain
-                                    )
-                                  ),
-                                ),
+                                )),),
                                 Column(
                                   children: <Widget>[
                                     Text(
                                       item.nombre,
-                                      style: new TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0,
                                         color: Colors.black
-                                      )
-                                    ),
+                                    )),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
@@ -124,43 +122,44 @@ class _CartState extends State<Cart> {
                                           height: 40,
                                           decoration: BoxDecoration(
                                             color: Colors.red[600],
+                                              // ignore: prefer_const_literals_to_create_immutables
                                               boxShadow: [
+                                                // ignore: prefer_const_constructors
                                                 BoxShadow(
                                                   blurRadius: 6.0,
                                                   color: Colors.blue,
-                                                  offset: Offset(0.0, 1.0),
-                                                )
+                                                  offset: const Offset(0.0, 1.0),)
                                               ],
-                                              borderRadius: BorderRadius.all(Radius.circular(50.0),)
+                                              borderRadius: const BorderRadius.all(Radius.circular(50.0),)
                                           ),
-                                          margin: EdgeInsets.only(top: 20.0),
-                                          padding: EdgeInsets.all(2.0),
-                                          child: new Row(
+                                          margin: const EdgeInsets.only(top: 20.0),
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
-                                              SizedBox(height: 8.0),
+                                              const SizedBox(height: 8.0),
                                               IconButton(
                                                 onPressed: () {
-                                                  _removeProduct(index);
+                                                  //_removeProduct(index);
                                                    valorTotal(_cart);
                                                 },
-                                                icon: Icon(Icons.remove),
+                                                icon: const Icon(Icons.remove),
                                                 color: Colors.white,
                                               ),
-                                              TextWidget(
+                                              /*TextWidget(
                                                 text: _cart[index].cantidad.toString(),
                                                 fontSize: 22,
                                                 color: Colors.white
-                                              ),
+                                              ),*/
                                               IconButton(
                                                 onPressed: () {
-                                                  _addProduct(index);
+                                                  //_addProduct(index);
                                                   valorTotal(_cart);
                                                 },
-                                                icon: Icon(Icons.add),
+                                                icon: const Icon(Icons.add),
                                                 color: Colors.yellow,
                                               ),
-                                              SizedBox(height: 8.0,)
+                                              const SizedBox(height: 8.0,)
                                             ],
                                           ),
                                         )
@@ -168,47 +167,43 @@ class _CartState extends State<Cart> {
                                     )
                                   ],
                                 ),
-                                SizedBox(width: 38.0,),
+                                const SizedBox(width: 38.0,),
                                 Text(
                                   item.precio.toString(),
-                                  style: new TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24.0,
                                     color: Colors.black
                                   )
                                 ),
-                                Container(
-                                  child: IconButton(
-                                    onPressed: () {
-                                    _deleteProduct(index);
+                                IconButton(
+                                  onPressed: () {
+                                  //_deleteProduct(index);
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.cancel_outlined,
-                                    color: Colors.grey
-                                  )
+                                    color: Colors.grey)
                                 )
-                              )
                             ],
                           )
                         ],
-                      ),
-                    ),
-                    Divider(color: Colors.greenAccent,)
+                    ),),
+                    const Divider(color: Colors.greenAccent,)
                   ],
                 );
               }),
-              SizedBox(width: 10.0,),
+              const SizedBox(width: 10.0,),
               pagoTotal(_cart),
-              SizedBox(width: 20.0,),
+              const SizedBox(width: 20.0,),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: SizedBox(
                   width: 220,
                   height: 60,
+                  // ignore: deprecated_member_use
                   child: FlatButton(
                     textColor: Colors.white,
                     color: Colors.green,
-                    //aqui poner la ruta del formulario de envios
                     onPressed: () {
                       //Navigator.push(context,MaterialPageRoute(
                       //builder: (BuildContext context) => const EnvioPage(),
@@ -217,27 +212,19 @@ class _CartState extends State<Cart> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                    child: Padding(
+                    child: const Padding(
                       padding: EdgeInsets.only(left: 8, right: 8, top: 10, bottom: 10),
                       child: Text(
                         "Comprar",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 22.0
-                        )
-                      )
-                    ),
-                  ),
-                ),
-              ),
+              ))),),),),
             ],
-          )
-        )
-      ),
-    );
+    ))),);
   }
 
-//procesos para editar la lista del carrito
+/*procesos para editar la lista del carrito
   _addProduct(int index) {
     setState(() {
       _cart[index].cantidad++;
@@ -254,5 +241,5 @@ class _CartState extends State<Cart> {
     setState(() {
       _cart.remove(_cart[index]);
     });
-  }
+  }*/
 }

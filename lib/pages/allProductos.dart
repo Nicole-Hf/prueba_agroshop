@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/datas/menu_items.dart';
@@ -7,13 +6,11 @@ import 'package:prueba_agroshop/model/menu_item.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
-import 'package:prueba_agroshop/utils/Theme.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: use_key_in_widget_constructors
 class AllProducts extends StatefulWidget {
-  //const AllProducts({Key key}) : super(key: key);
   static const String route = 'allProducts';
 
   @override
@@ -32,8 +29,6 @@ class _AllProductsState extends State<AllProducts> {
   }
 
   _getProductos() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = localStorage.getString("user");
     await _initData();
   }
 
@@ -137,6 +132,7 @@ class _AllProductsState extends State<AllProducts> {
                                 Positioned(
                                   top: 45,
                                   left: width * 0.4,
+                                  // ignore: sized_box_for_whitespace
                                   child: Container(
                                     height: 200,
                                     width: 150,
@@ -146,7 +142,7 @@ class _AllProductsState extends State<AllProducts> {
                                         TextWidget(
                                           text: article.nombre,
                                           fontSize: 20,
-                                          color: MaterialColors.black,
+                                          color: Colors.black,
                                         ),
                                         SizedBox(height: height * 0.02),
                                         TextWidget(
@@ -207,11 +203,11 @@ class _AllProductsState extends State<AllProducts> {
                                                         setState(() {
                                                           if (!listaCarrito.contains(article)) {
                                                             listaCarrito.add(article);
-                                                            article.cantidad++;
+                                                            //article.cantidad++;
                                                           } 
                                                           else {
                                                             listaCarrito.remove(article);
-                                                            article.cantidad--;
+                                                            //article.cantidad--;
                                                           }
                                                         }
                                                       );
@@ -241,3 +237,4 @@ class _AllProductsState extends State<AllProducts> {
     );
   }
 }
+

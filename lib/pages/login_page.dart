@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:prueba_agroshop/pages/home_page.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/services/auth_services.dart';
 import 'package:prueba_agroshop/services/globals.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
+import 'package:prueba_agroshop/variables.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,7 +22,15 @@ class _LoginPageState extends State<LoginPage> {
     if (_email.isNotEmpty && _password.isNotEmpty) {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
+      var dataUser = json.decode(response.body);
+      //print(dataUser['id']);
       if (response.statusCode == 200) {
+        idUserAutentificado = dataUser['id'];
+        nameUserAutentificado = dataUser['name'];
+        idClienteAutentificado = dataUser['cliente'];
+        idCarritoCliente = dataUser['carrito'];
+        // ignore: avoid_print
+        print(idCarritoCliente);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -40,21 +47,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /*appBar: AppBar(
-          backgroundColor: Colors.black,
-          centerTitle: true,
-          elevation: 0,
-          title: const Text(
-            'Login',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),*/
-        body: Stack(children: <Widget>[
+      body: Stack(children: <Widget>[
       Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/images/onboarding.png"),
                   fit: BoxFit.cover))),
@@ -67,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                   Card(
                       elevation: 4.0,
                       color: Colors.white,
-                      margin: EdgeInsets.only(left: 40, right: 40),
+                      margin: const EdgeInsets.only(left: 40, right: 40),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       child: Padding(
@@ -104,10 +99,9 @@ class _LoginPageState extends State<LoginPage> {
                               btnText: 'LOG IN',
                               onBtnPressed: () => loginPressed(),
                             ),
-                            SizedBox(height: 18)
+                            const SizedBox(height: 18)
                           ],
-                        ),
-                      ))
+                      ),))
                 ],
               )))
     ]));

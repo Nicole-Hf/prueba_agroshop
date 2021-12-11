@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/producto.dart';
-import 'package:prueba_agroshop/utils/Theme.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
 import 'package:prueba_agroshop/utils/widget_drawers.dart';
 
 class Wishlist extends StatefulWidget {
   final List<ProductoInfo> _wishlist;
 
-  Wishlist(this._wishlist);
+  // ignore: use_key_in_widget_constructors
+  const Wishlist(this._wishlist);
 
   @override
-  _WishlistState createState() => _WishlistState(this._wishlist);
+  // ignore: no_logic_in_create_state
+  _WishlistState createState() => _WishlistState(_wishlist);
 }
 
 class _WishlistState extends State<Wishlist> {
   _WishlistState(this._wishlist);
 
-  List<ProductoInfo> _wishlist;
+  final List<ProductoInfo> _wishlist;
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +45,11 @@ class _WishlistState extends State<Wishlist> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: height * 0.02,),
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               Expanded(
                 child: SingleChildScrollView(
-                  child: _wishlist.length == 0
-                      ? CircularProgressIndicator()
+                  child: _wishlist.isEmpty
+                      ? const CircularProgressIndicator()
                       : Column(
                           children: _wishlist.map((article) {
                             debugPrint(article.imagen.toString());
@@ -67,34 +68,29 @@ class _WishlistState extends State<Wishlist> {
                                   children: [
                                     Positioned(
                                       top: 35,
-                                      child: new Material(
+                                      child: Material(
                                         elevation: 0.0,
-                                        child: new Container(
+                                        child: Container(
                                           height: 180.0,
                                           width: width * 0.9,
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius: BorderRadius.circular(0.0),
-                                            boxShadow: [new BoxShadow(
+                                            boxShadow: [BoxShadow(
                                               color: Colors.grey.withOpacity(0.3),
-                                              offset: new Offset(0.0, 0.0),
+                                              offset: const Offset(0.0, 0.0),
                                               blurRadius: 20.0,
                                               spreadRadius: 4.0
                                             )
                                           ],
-                                        ),
-                                      )
-                                    )
-                                  ),
+                                  ),))),
                                   Positioned(
                                     top: 0,
                                     left: 10,
                                     child: Card(
                                       elevation: 10.0,
                                       shadowColor: Colors.grey.withOpacity(0.5),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15.0),
-                                      ),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
                                       child: Container(
                                         height: 200,
                                         width: 150,
@@ -102,18 +98,12 @@ class _WishlistState extends State<Wishlist> {
                                           borderRadius: BorderRadius.circular(10.0),
                                           image: DecorationImage(
                                             fit: BoxFit.fill,
-                                            image: NetworkImage(
-                                              "http://10.0.2.2:8000" + article.imagen.toString(),
-                                            ),
-                                          ),
-                                        )
-                                      )
-                                    )
-                                  ),
+                                            image: NetworkImage("http://10.0.2.2:8000" + article.imagen.toString(),),
+                                  ),)))),
                                   Positioned(
                                     top: 45,
                                     left: width * 0.4,
-                                    child: Container(
+                                    child: SizedBox(
                                       height: 200,
                                       width: 150,
                                       child: Column(
@@ -122,15 +112,14 @@ class _WishlistState extends State<Wishlist> {
                                           TextWidget(
                                             text: article.nombre,
                                             fontSize: 20,
-                                            color: MaterialColors.black,
-                                          ),
+                                            color: Colors.black,),
                                           SizedBox(height: height * 0.02),
                                           TextWidget(
                                             text: "Bs.-" + article.precio,
                                             fontSize: 16,
-                                            color: Color(0xFFa9b3bd)
+                                            color: const Color(0xFFa9b3bd)
                                           ),
-                                          Divider(color: Colors.black),
+                                          const Divider(color: Colors.black),
                                           SizedBox(height: height * 0.02),
                                           Padding(
                                             padding: const EdgeInsets.only(right: 8.0, left: 8.0,),
@@ -142,46 +131,32 @@ class _WishlistState extends State<Wishlist> {
                                                   child: GestureDetector(
                                                     child: (
                                                       (!_wishlist.contains(article))
-                                                      ? Icon(
-                                                          Icons.favorite_outline,
-                                                          size: 33,
-                                                        )
-                                                      : Icon(
-                                                          Icons.favorite,
+                                                      ? const Icon(Icons.favorite_outline,
+                                                          size: 33,)
+                                                      : const Icon(Icons.favorite,
                                                           color: Colors.red,
-                                                          size: 33,
-                                                        )
+                                                          size: 33,)
                                                     ),
                                                     onTap: () {
                                                       setState(() {
-                                                        if (!_wishlist.contains(article))
+                                                        if (!_wishlist.contains(article)) {
                                                           _wishlist.add(article);
-                                                        else
+                                                        } else {
                                                           _wishlist.remove(article);
+                                                        }
                                                       });
                                                     },
-                                                  ),
-                                                ),
+                                                ),),
                                               ]
-                                            )
-                                          )
+                                          ))
                                         ],
-                                      )
-                                    )
-                                  ),
+                                  ))),
                                 ],
-                              )
-                            )
-                          );
+                          )));
                         }
                       ).toList(),
-                    ),
-                ),
-              ),
+              ),),),
             ],
-          )
-        ),
-      )
-    );
+    )),));
   }
 }

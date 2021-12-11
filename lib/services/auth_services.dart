@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/services/globals.dart';
 
@@ -21,6 +20,7 @@ class AuthServices {
       headers: headers,
       body: body,
     );
+    // ignore: avoid_print
     print(response.body);
     return response;
   }
@@ -38,6 +38,8 @@ class AuthServices {
       headers: headers,
       body: body,
     );
+    
+    // ignore: avoid_print
     print(response.body);
     return response;
   }

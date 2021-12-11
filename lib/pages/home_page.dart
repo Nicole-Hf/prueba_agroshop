@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/datas/menu_items.dart';
-import 'package:prueba_agroshop/model/menu_item.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
-import 'package:prueba_agroshop/utils/Theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,12 +14,15 @@ class _HomePageState extends State<HomePage> {
   
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // ignore: prefer_final_fields
   List<Widget> _widgetOptions = [
     ProductoPage(),
+    // ignore: prefer_const_constructors
     Text(
       'Index 1: Lista de deseos',
       style: optionStyle,
     ),
+    // ignore: prefer_const_constructors
     Text(
       'Index 2: Mis Pedidos',
       style: optionStyle,
@@ -73,17 +73,17 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: MaterialColors.black,
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Wishlist',
-            backgroundColor: MaterialColors.black,
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.delivery_dining_outlined),
             label: 'My orders',
-            backgroundColor: MaterialColors.black,
+            backgroundColor: Colors.black,
           ),
           /*BottomNavigationBarItem(
             icon: Icon(Icons.add_shopping_cart_sharp),
@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.logout),
             label: 'Logout',
-            backgroundColor: MaterialColors.black,
+            backgroundColor: Colors.black,
           ),
         ],
         currentIndex: _selectedIndex,

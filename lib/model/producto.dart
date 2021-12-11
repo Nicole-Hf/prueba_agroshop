@@ -7,8 +7,8 @@ class ProductoInfo {
     required this.precio, 
     required this.stock,
     required this.imagen,
-    required this.empresa_id, 
-    required this.subcategoria_id,
+    required this.empresa, 
+    required this.subcategoria,
     required this.categoria,
     //required this.cantidad
   });
@@ -20,10 +20,10 @@ class ProductoInfo {
   final String precio;
   final int stock;
   final String imagen;
-  final int empresa_id;
-  final int subcategoria_id;
+  final int empresa;
+  final int subcategoria;
   final int categoria;
-  late int cantidad = 0;
+  //late int cantidad = 0;
 
   ProductoInfo.fromJson(Map json)
       : id = json['id'],
@@ -32,8 +32,8 @@ class ProductoInfo {
         precio = json['precio'],
         imagen = json['imagen'],
         stock = json['stock'],
-        empresa_id = json['empresa_id'],
-        subcategoria_id = json['subcategoria_id'],
+        empresa = json['empresa_id'],
+        subcategoria = json['subcategoria_id'],
         categoria = json['categoria'];
         //cantidad = json['cantidad'];
 
@@ -45,8 +45,8 @@ class ProductoInfo {
       'precio': precio,
       'imagen': imagen,
       'stock': stock,
-      'empresa_id': empresa_id,
-      'subcategoria_id': subcategoria_id,
+      'empresa_id': empresa,
+      'subcategoria_id': subcategoria,
       'categoria': categoria,
       //'cantidad': cantidad,
     };

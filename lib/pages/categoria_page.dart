@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/subcategoria.dart';
 import 'package:prueba_agroshop/services/api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: use_key_in_widget_constructors
 class CategoriaPage extends StatefulWidget {
-  //const ProductoPage({required Key key}) : super(key: key);
   static const String route = 'categorias';
 
   @override
@@ -27,8 +26,6 @@ class _CategoriaPageState extends State<CategoriaPage> {
   }
 
   _getProductos() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var user = localStorage.getString("user");
     await _initData();
   }
 
@@ -50,12 +47,13 @@ class _CategoriaPageState extends State<CategoriaPage> {
     });
   }
 
+  // ignore: unused_element
   _llenarCategoria() {
     for (int i = 0; i < listaCategorias.length; i++) {
       data[i].nombre = listaCategorias[i].nombre;
       for (int j = 0; j < listaSubcateg.length; j++) {
         int pos = 0;
-        if (listaSubcateg[j].categoria_id == listaCategorias[i].id) {
+        if (listaSubcateg[j].categoria == listaCategorias[i].id) {
           sublist[pos].nombre = listaSubcateg[j].nombre;
           pos++;
         }
@@ -67,6 +65,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
+    // ignore: unused_local_variable
     final double width = MediaQuery.of(context).size.width;
     debugPrint(height.toString());
     //_llenarCategoria();
@@ -82,12 +81,9 @@ class _CategoriaPageState extends State<CategoriaPage> {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      ),),),
       body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) =>
-            MyExpandableWidget(data[index]),
+        itemBuilder: (BuildContext context, int index) => MyExpandableWidget(data[index]),
         itemCount: data.length,
       ),
     );
@@ -97,7 +93,8 @@ class _CategoriaPageState extends State<CategoriaPage> {
 class MyExpandableWidget extends StatelessWidget {
   final CategoriaList categ;
 
-  MyExpandableWidget(this.categ);
+  // ignore: use_key_in_widget_constructors
+  const MyExpandableWidget(this.categ);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +102,7 @@ class MyExpandableWidget extends StatelessWidget {
     return ExpansionTile(
       key: PageStorageKey<CategoriaList>(categ),
       title: Text(categ.nombre,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
               color: Colors.pinkAccent)),
@@ -116,12 +113,10 @@ class MyExpandableWidget extends StatelessWidget {
 }
 
 _showSubcategorias(SubcategoriaList sub) {
-  return new ListTile(
-    title: new Text(
+  return ListTile(
+    title: Text(
       sub.nombre,
-      style: new TextStyle(fontSize: 20),
-    ),
-  );
+      style: const TextStyle(fontSize: 20),),);
 }
 
 class CategoriaList {
