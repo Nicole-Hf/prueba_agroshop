@@ -1,14 +1,15 @@
-//Carrito carritoFromMap(String str) => Carrito.fromMap(json.decode(str));
-//String carritoToMap(Carrito data) => json.encode(data.toMap());
+import 'dart:convert';
 
-class Carrito {
+CartProduct cartProductFromMap(String str) => CartProduct.fromMap(json.decode(str));
+String cartProductToMap(CartProduct data) => json.encode(data.toMap());
 
-  Carrito({
+class CartProduct {
+
+  CartProduct({
     required this.id,
     required this.carritoid,
     required this.productoid,
     required this.cantidad,
-    //required this.precio,
     required this.subtotal,
   });
 
@@ -16,25 +17,21 @@ class Carrito {
   final int carritoid;
   final int productoid;
   late final int cantidad;
-  //final String precio;
   final String subtotal;
 
-  Carrito.fromJson(Map json) :
-    id = json["id"],
-    carritoid = json["carrito_id"],
-    productoid = json["producto_id"],
-    cantidad = json["cantidad"],
-    //precio = json["precio"],
-    subtotal = json["subtotal"];
+  factory CartProduct.fromMap(Map<String, dynamic> json) =>   CartProduct(
+    id: json['id'],
+    carritoid: json['carrito_id'],
+    productoid: json['producto_id'],
+    cantidad: json['cantidad'],
+    subtotal: json['subtotal'],
+  );
 
-  Map toJson() {
-    return {
-      "id": id,
-      "carritoid": carritoid,
-      "productoid": productoid,
-      "cantidad": cantidad,
-      //"precio": precio,
-      "subtotal": subtotal,
-    };
-  }
+  Map<String, dynamic> toMap() => {
+    "id": id,
+    "carrito_id": carritoid,
+    "producto_id": productoid,
+    "cantidad": cantidad,
+    "subtotal": subtotal,
+  };
 }

@@ -9,6 +9,7 @@ import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/pages/allProductos.dart';
 import 'package:prueba_agroshop/services/api.dart';
+import 'package:prueba_agroshop/services/cart_services.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
 import 'package:prueba_agroshop/utils/widget_drawers.dart';
 import 'package:prueba_agroshop/variables.dart';
@@ -26,9 +27,11 @@ class _ProductoPageState extends State<ProductoPage> {
   //creamos las variables donde se guardaran los datos
   var productos = <ProductoInfo>[];
   var categorias = <Categoria>[];
-  var filteredProducts = <ProductoInfo>[];
-  var listaCarrito = <Carrito>[];
+  var listaCarrito = <CartProduct>[];
   var listaDeseos = <ProductoInfo>[];
+
+  CartService cartApi = CartService();
+  bool _addingToCart = false;
 
   @override
   void initState() {
@@ -45,8 +48,7 @@ class _ProductoPageState extends State<ProductoPage> {
     await CallApi().getPublicData("someproducts").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
-        productos = filteredProducts =
-            list.map((model) => ProductoInfo.fromJson(model)).toList();
+        productos = list.map((model) => ProductoInfo.fromJson(model)).toList();
       });
     });
 
@@ -55,22 +57,6 @@ class _ProductoPageState extends State<ProductoPage> {
         Iterable list = json.decode(response.body);
         categorias = list.map((model) => Categoria.fromJson(model)).toList();
       });
-    });
-
-    await CallApi().getCarrito().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        listaCarrito = list.map((model) => Carrito.fromJson(model)).toList();
-      });
-    }); 
-  }
-
-  //proceso para filtrar productos por categorías
-  // ignore: unused_element
-  void _filterProducts(value) {
-    setState(() {
-      filteredProducts =
-          productos.where((productos) => productos.categoria == value).toList();
     });
   }
 
@@ -288,103 +274,35 @@ class _ProductoPageState extends State<ProductoPage> {
                                         Align(
                                           alignment: Alignment.bottomRight,
                                           child: GestureDetector(
-                                            child: ((!_containsProducto(productos[i].id))
-                                              ? const Icon(
-                                                  Icons.shopping_cart,
-                                                  color: Colors.black,
-                                                  size: 33,)
-                                              : const Icon(
-                                                  Icons.shopping_cart,
-                                                  color: Colors.green,
-                                                  size: 33,)
-                                            ),
-                                            /*((!listaCarrito.contains(item))
+                                            child: 
+                                            //((!listaCarrito.contains(item))
+                                            ((!_addingToCart)
+                                              // ignore: prefer_const_constructors
                                               ? Icon(
                                                   Icons.shopping_cart,
                                                   color: Colors.black,
                                                   size: 33,
                                                 )
+                                              // ignore: prefer_const_constructors
                                               : Icon(
                                                   Icons.shopping_cart,
                                                   color: Colors.green,
                                                   size: 33,
                                                 )
-                                            ),*/
-                                            onTap: () {
+                                            ),
+                                            onTap: () async {
                                               setState(() {
-                                                if (!_containsProducto(productos[i].id)) {
-                                                  _addNewProduct(productos[i].id);                         
-                                                }                                                
-                                                else {                                                 
-                                                  int idcar = _obtenerID(productos[i].id);
-                                                  if (idcar != 0) {
-                                                    listaCarrito[idcar].cantidad--;
-                                                  }
-                                                }                                               
+                                                _addingToCart = true;
                                               });
-                                              /*setState(() {
-                                                if (!listaCarrito.contains(item)) {                                                                                  
-                                                  productos[i].cantidad = listaCarrito[i].cantidad = 1;
-                                                }                                                
-                                                else {                                                 
-                                                  listaCarrito.remove(item);                                                 
-                                                  productos[i].cantidad = listaCarrito[i].cantidad = 0;
-                                                }                                               
-                                              });*/
+                                              await cartApi.addProductToCart(productos[i].id);
+                                              setState(() {
+                                                _addingToCart = false;
+                                              });
                                             },
-                                        ),)
-                                  ]))
+                                   ),)]))
                           ],))),
                   ],));
                 }
-        ),))],
-    ),);
-  }
-
-  // ignore: unused_element
-  _addProducto(int productoID) {
-    setState(() {
-      int i = _obtenerID(productoID);
-      listaCarrito[i].cantidad++;
-    });
-  }
-
-  // ignore: unused_element
-  _removeProducto(int productoID) {
-    setState(() {
-      int i = _obtenerID(productoID);
-      listaCarrito[i].cantidad--;
-    });
-  }
-
-  _containsProducto(int productoID) {
-    for (int i = 1; i <= listaCarrito.length; i++) {
-      if (listaCarrito[i].productoid == productoID) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  _obtenerID(int productoID) {
-    for (int i = 1; i <= listaCarrito.length; i++) {
-      if (listaCarrito[i].productoid == productoID) {
-        return i;
-      }
-    }
-    return 0;
-  }
-
-  _addNewProduct(int productoID) {
-    setState(() {
-      var item = Carrito(
-        id: listaCarrito.length + 1, 
-        carritoid: idCarritoCliente, 
-        productoid: productoID, 
-        cantidad: 1, 
-        //precio: productos[productoID].precio, 
-        subtotal: productos[productoID].precio); 
-      listaCarrito.add(item);
-    });
+    ),))],),);
   }
 }
