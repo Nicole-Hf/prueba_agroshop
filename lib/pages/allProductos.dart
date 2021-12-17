@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/services/api.dart';
+import 'package:prueba_agroshop/services/cart_services.dart';
+import 'package:prueba_agroshop/services/wish_services.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -16,8 +18,10 @@ class AllProducts extends StatefulWidget {
 
 class _AllProductsState extends State<AllProducts> {
   var articles = <ProductoInfo>[];
-  var listaCarrito = <ProductoInfo>[];
-  var listaDeseos = <ProductoInfo>[];
+  CartService cartApi = CartService();
+  bool _addingToCart = false;
+  WishlistService wishApi = WishlistService();
+  bool _addingToList = false;
 
   @override
   void initState() {
@@ -52,9 +56,7 @@ class _AllProductsState extends State<AllProducts> {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      ),),),
       body: Container(
       color: Colors.white,
       child: SafeArea(
@@ -98,13 +100,8 @@ class _AllProductsState extends State<AllProducts> {
                                           // ignore: prefer_const_constructors
                                           offset: new Offset(0.0, 0.0),
                                           blurRadius: 20.0,
-                                          spreadRadius: 4.0
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                )
-                              ),
+                                          spreadRadius: 4.0)],),
+                              ))),
                               Positioned(
                                 top: 0,
                                 left: 10,
@@ -112,8 +109,7 @@ class _AllProductsState extends State<AllProducts> {
                                   elevation: 10.0,
                                   shadowColor: Colors.grey.withOpacity(0.5),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
+                                    borderRadius: BorderRadius.circular(15.0),),
                                   child: Container(
                                     height: 200,
                                     width: 150,
@@ -122,35 +118,27 @@ class _AllProductsState extends State<AllProducts> {
                                         image: DecorationImage(
                                           fit: BoxFit.fill,
                                           image: NetworkImage(
-                                            "http://10.0.2.2:8000" + article.imagen.toString(),
-                                          ),
-                                        ),
-                                      )
-                                    )
-                                  )
-                                ),
+                                            "http://10.0.2.2:8000" + article.imagen.toString(),),),
+                                    ))
+                                )),
                                 Positioned(
                                   top: 45,
                                   left: width * 0.4,
                                   // ignore: sized_box_for_whitespace
-                                  child: Container(
-                                    height: 200,
-                                    width: 150,
+                                  child: Container(height: 200, width: 150,
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         TextWidget(
                                           text: article.nombre,
                                           fontSize: 20,
-                                          color: Colors.black,
-                                        ),
+                                          color: Colors.black,),
                                         SizedBox(height: height * 0.02),
                                         TextWidget(
                                           text: "Bs.-" + article.precio,
                                           fontSize: 16,
                                           // ignore: prefer_const_constructors
-                                          color: Color(0xFFa9b3bd)
-                                        ),
+                                          color: Color(0xFFa9b3bd)),
                                         // ignore: prefer_const_constructors
                                         Divider(color: Colors.black),
                                         SizedBox(height: height * 0.02),
@@ -162,81 +150,52 @@ class _AllProductsState extends State<AllProducts> {
                                               Align(
                                                 alignment: Alignment.bottomRight,
                                                 child: GestureDetector(
-                                                  child: (
-                                                    (!listaDeseos.contains(article))
+                                                  child: ((!_addingToList)
                                                     ? const Icon(
                                                         Icons.favorite_outline,
-                                                        size: 33,
-                                                      )
+                                                        size: 33,)
                                                     : const Icon(
                                                         Icons.favorite,
                                                         color: Colors.red,
-                                                        size: 33,
-                                                      )
-                                                    ),
-                                                    onTap: () {
-                                                      setState(() {
-                                                        if (!listaDeseos.contains(article)) {
-                                                          listaDeseos.add(article);
-                                                        } else {
-                                                          listaDeseos.remove(article);
-                                                        }
-                                                        }
-                                                      );
-                                                    },
+                                                        size: 33,)
                                                   ),
-                                                ),
-                                                Align(
-                                                  alignment: Alignment.bottomRight,
-                                                  child: GestureDetector(
-                                                    child: (
-                                                      (!listaCarrito.contains(article))
-                                                      ? const Icon(
-                                                          Icons.shopping_cart,
-                                                          color: Colors.black,
-                                                          size: 33,
-                                                        )
-                                                      : const Icon(
-                                                          Icons.shopping_cart,
-                                                          color: Colors.green,
-                                                          size: 33,
-                                                        )
+                                                  onTap: () async {
+                                                    setState(() {
+                                                      _addingToList = true;
+                                                    });
+                                                    await wishApi.addProductToList(article.id);
+                                                  },
+                                              ),),
+                                              Align(
+                                                alignment: Alignment.bottomRight,
+                                                child: GestureDetector(
+                                                  child: ((!_addingToCart)
+                                                    ? const Icon(
+                                                        Icons.shopping_cart,
+                                                        color: Colors.black,
+                                                        size: 33,)
+                                                    : const Icon(
+                                                        Icons.shopping_cart,
+                                                        color: Colors.green,
+                                                        size: 33,)
                                                       ),
-                                                      onTap: () {
-                                                        setState(() {
-                                                          if (!listaCarrito.contains(article)) {
-                                                            listaCarrito.add(article);
-                                                            //article.cantidad++;
-                                                          } 
-                                                          else {
-                                                            listaCarrito.remove(article);
-                                                            //article.cantidad--;
-                                                          }
-                                                        }
-                                                      );
-                                                    },
-                                                  ),
-                                                )
-                                              ]
-                                            )
-                                          )
-                                        ],
-                                      )
-                                    )
-                                  ),
-                                ],
-                              )
-                            )
-                          );
+                                                  onTap: () async {
+                                                    setState(() {
+                                                      _addingToCart = true;
+                                                    });
+                                                    await cartApi.addProductToCart(article.id);
+                                                    setState(() {
+                                                      _addingToCart = false;
+                                                    });
+                                                  },
+                                                ),)
+                                        ]))
+                                ],))),
+                        ],)));
                       }
                     ).toList(),
-                  ),
-                ),
-              ),
-            ],
-          )
-        ),
-      )
+              ),),),
+      ],)),)
     );
   }
 }
