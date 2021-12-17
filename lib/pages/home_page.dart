@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:prueba_agroshop/datas/menu_items.dart';
+import 'package:prueba_agroshop/model/menu_item.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
+import 'package:prueba_agroshop/pages/pedido_lista.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
+import 'package:prueba_agroshop/pages/wishlist_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,17 +21,13 @@ class _HomePageState extends State<HomePage> {
   // ignore: prefer_final_fields
   List<Widget> _widgetOptions = [
     ProductoPage(),
-    // ignore: prefer_const_constructors
-    Text(
-      'Index 1: Lista de deseos',
-      style: optionStyle,
-    ),
+    WishlistPage(),
     // ignore: prefer_const_constructors
     Text(
       'Index 2: Mis Pedidos',
       style: optionStyle,
     ),
-    //OnboardingPage(),
+    CartPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -45,7 +45,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
+      appBar: AppBar(
+        // ignore: unnecessary_new
+        leading: new Container(),
         backgroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
@@ -64,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ],
-      ),*/
+      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -85,14 +87,9 @@ class _HomePageState extends State<HomePage> {
             label: 'My orders',
             backgroundColor: Colors.black,
           ),
-          /*BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.add_shopping_cart_sharp),
             label: 'Cart',
-            backgroundColor: MaterialColors.black,
-          ),*/
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Logout',
             backgroundColor: Colors.black,
           ),
         ],
@@ -103,7 +100,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /*PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
+  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
     value: item,
     child: Row(
       children: [
@@ -125,5 +122,5 @@ class _HomePageState extends State<HomePage> {
         );
       break;
     }
-  }*/
+  }
 }

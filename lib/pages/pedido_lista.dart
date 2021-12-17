@@ -1,28 +1,52 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/model/producto.dart';
+import 'package:prueba_agroshop/model/carrito.dart';
+import 'package:prueba_agroshop/services/api.dart';
+import 'package:prueba_agroshop/services/cart_services.dart';
+import 'package:prueba_agroshop/utils/text_widget.dart';
+import 'package:prueba_agroshop/variables.dart';
 
-class Cart extends StatefulWidget {
-  final List<ProductoInfo> _cart;
-
-  // ignore: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
-  Cart(this._cart);
+// ignore: use_key_in_widget_constructors
+class CartPage extends StatefulWidget {
+  // ignore: prefer_const_declarations
+  static final routeName = 'carrito';
 
   @override
-  // ignore: unnecessary_this, no_logic_in_create_state
-  _CartState createState() => _CartState(this._cart);
+  _CartPageState createState() => _CartPageState();
 }
 
-class _CartState extends State<Cart> {
-  _CartState(this._cart);
+class _CartPageState extends State<CartPage> {
   final _scrollController = ScrollController();
+  // ignore: prefer_final_fields
+  var _cart = <CartProduct>[];
   var _firstScroll = true;
   // ignore: prefer_final_fields
   bool _enable = false;
 
-  // ignore: prefer_final_fields
-  List<ProductoInfo> _cart;
+  CartService cartApi = CartService();
 
-  Container pagoTotal(List<ProductoInfo> _cart) {
+  @override
+  void initState() {
+    _getCartItems();
+    super.initState();
+  }
+
+  _getCartItems() async {
+    await _initData();
+  }
+
+  //llamada a las API
+  _initData() async {
+    await CallApi().getPublicData("cartproduct/$idCarritoCliente").then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        _cart = list.map((model) => CartProduct.fromJson(model)).toList();
+      });
+    });
+  }
+
+  Container pagoTotal(List<CartProduct> _cart) {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(left: 120),
@@ -44,12 +68,12 @@ class _CartState extends State<Cart> {
     );
   }
 
-  String valorTotal(List<ProductoInfo> listaProductos) {
+  String valorTotal(List<CartProduct> listaProductos) {
     double total = 0.0;
 
-    /*for (int i = 0; i < listaProductos.length; i++) {
-      total = total + double.parse(listaProductos[i].precio) * listaProductos[i].cantidad;
-    }*/
+    for (int i = 0; i < listaProductos.length; i++) {
+      total += double.parse(listaProductos[i].precio) * listaProductos[i].cantidad;
+    }
 
     return total.toStringAsFixed(2);
   }
@@ -62,14 +86,10 @@ class _CartState extends State<Cart> {
         backgroundColor: Colors.black,
         centerTitle: true,
         elevation: 0,
-        title: const Text(
-          'AgroShop',
+        title: const Text('AgroShop',
           style: TextStyle(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+            fontWeight: FontWeight.bold,),),),
       body: GestureDetector(
         onVerticalDragUpdate: (details) {
           if (_enable && _firstScroll) {
@@ -102,7 +122,7 @@ class _CartState extends State<Cart> {
                                   child: SizedBox(
                                     width: 100,
                                     height: 100,
-                                    child: Image.network("http://10.0.2.2:8000" + _cart[index].imagen,
+                                    child: Image.network("http://10.0.2.2:8000" + item.imagen,
                                       fit: BoxFit.contain
                                 )),),
                                 Column(
@@ -112,8 +132,7 @@ class _CartState extends State<Cart> {
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16.0,
-                                        color: Colors.black
-                                    )),
+                                        color: Colors.black)),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: <Widget>[
@@ -121,17 +140,15 @@ class _CartState extends State<Cart> {
                                           width: 120,
                                           height: 40,
                                           decoration: BoxDecoration(
-                                            color: Colors.red[600],
+                                            color: Colors.amber[700],
                                               // ignore: prefer_const_literals_to_create_immutables
                                               boxShadow: [
                                                 // ignore: prefer_const_constructors
                                                 BoxShadow(
                                                   blurRadius: 6.0,
-                                                  color: Colors.blue,
-                                                  offset: const Offset(0.0, 1.0),)
-                                              ],
-                                              borderRadius: const BorderRadius.all(Radius.circular(50.0),)
-                                          ),
+                                                  color: Colors.black,
+                                                  offset: const Offset(0.0, 1.0),)],
+                                              borderRadius: const BorderRadius.all(Radius.circular(50.0),)),
                                           margin: const EdgeInsets.only(top: 20.0),
                                           padding: const EdgeInsets.all(2.0),
                                           child: Row(
@@ -139,37 +156,28 @@ class _CartState extends State<Cart> {
                                             children: <Widget>[
                                               const SizedBox(height: 8.0),
                                               IconButton(
-                                                onPressed: () {
-                                                  //_removeProduct(index);
-                                                   valorTotal(_cart);
+                                                onPressed: () async{
+                                                  await cartApi.removeProductToCart(item.productoid);
                                                 },
                                                 icon: const Icon(Icons.remove),
-                                                color: Colors.white,
-                                              ),
-                                              /*TextWidget(
-                                                text: _cart[index].cantidad.toString(),
+                                                color: Colors.white,),
+                                              TextWidget(
+                                                text: item.cantidad.toString(),
                                                 fontSize: 22,
-                                                color: Colors.white
-                                              ),*/
+                                                color: Colors.white),
                                               IconButton(
-                                                onPressed: () {
-                                                  //_addProduct(index);
-                                                  valorTotal(_cart);
+                                                onPressed: () async {                                                
+                                                  await cartApi.addProductToCart(item.productoid);
                                                 },
                                                 icon: const Icon(Icons.add),
-                                                color: Colors.yellow,
-                                              ),
+                                                color: Colors.white,),
                                               const SizedBox(height: 8.0,)
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                        ],),)
+                                    ],)
+                                ],),
                                 const SizedBox(width: 38.0,),
                                 Text(
-                                  item.precio.toString(),
+                                  item.precio,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24.0,
@@ -177,20 +185,16 @@ class _CartState extends State<Cart> {
                                   )
                                 ),
                                 IconButton(
-                                  onPressed: () {
-                                  //_deleteProduct(index);
+                                  onPressed: () async{
+                                    await cartApi.deleteProductToCart(item.productoid);                                                         
                                   },
                                   icon: const Icon(
                                     Icons.cancel_outlined,
-                                    color: Colors.grey)
-                                )
-                            ],
-                          )
-                        ],
-                    ),),
+                                    color: Colors.grey))
+                          ],)
+                    ],),),
                     const Divider(color: Colors.greenAccent,)
-                  ],
-                );
+                ],);
               }),
               const SizedBox(width: 10.0,),
               pagoTotal(_cart),
@@ -210,36 +214,15 @@ class _CartState extends State<Cart> {
                       //));
                     },
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
+                      borderRadius: BorderRadius.circular(30.0),),
                     child: const Padding(
                       padding: EdgeInsets.only(left: 8, right: 8, top: 10, bottom: 10),
-                      child: Text(
-                        "Comprar",
+                      child: Text("Comprar",
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
-                          fontSize: 22.0
-              ))),),),),
-            ],
-    ))),);
+                          fontSize: 22.0))
+              ),),),),
+      ],))),
+    );
   }
-
-/*procesos para editar la lista del carrito
-  _addProduct(int index) {
-    setState(() {
-      _cart[index].cantidad++;
-    });
-  }
-
-  _removeProduct(int index) {
-    setState(() {
-      _cart[index].cantidad--;
-    });
-  }
-
-  _deleteProduct(int index) {
-    setState(() {
-      _cart.remove(_cart[index]);
-    });
-  }*/
 }

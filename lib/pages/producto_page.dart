@@ -8,10 +8,11 @@ import 'package:prueba_agroshop/model/carrito.dart';
 import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/pages/allProductos.dart';
+import 'package:prueba_agroshop/pages/pedido_lista.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
+import 'package:prueba_agroshop/services/wish_services.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
-import 'package:prueba_agroshop/utils/widget_drawers.dart';
 import 'package:prueba_agroshop/variables.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -27,11 +28,12 @@ class _ProductoPageState extends State<ProductoPage> {
   //creamos las variables donde se guardaran los datos
   var productos = <ProductoInfo>[];
   var categorias = <Categoria>[];
-  var listaCarrito = <CartProduct>[];
-  var listaDeseos = <ProductoInfo>[];
-
+  
   CartService cartApi = CartService();
   bool _addingToCart = false;
+
+  WishlistService wishApi = WishlistService();
+  bool _addingToList = false;
 
   @override
   void initState() {
@@ -58,6 +60,13 @@ class _ProductoPageState extends State<ProductoPage> {
         categorias = list.map((model) => Categoria.fromJson(model)).toList();
       });
     });
+
+    /*await CallApi().getPublicData("cartproduct/$idCarritoCliente").then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        _cart = list.map((model) => CartProduct.fromJson(model)).toList();
+      });
+    });*/
   }
 
   @override
@@ -67,11 +76,11 @@ class _ProductoPageState extends State<ProductoPage> {
     debugPrint(height.toString());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-          centerTitle: true,
-          elevation: 0,
-          title: const Text('AgroShop',
+      /*appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+        title: const Text('AgroShop',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
         actions: <Widget>[
           Padding(
@@ -81,27 +90,26 @@ class _ProductoPageState extends State<ProductoPage> {
                 alignment: Alignment.center,
                 children: <Widget>[
                   // ignore: prefer_const_constructors
-                  Icon(Icons.shopping_cart, size: 28, color: Colors.white,),
-                  if (listaCarrito.isNotEmpty) 
+                  Icon(Icons.shopping_cart, size: 28, color: Colors.black,),
+                  if (_cart.isNotEmpty) 
                     Padding(
                       padding: const EdgeInsets.only(left: 2.0),
                       child: CircleAvatar(
                         radius: 8.0,
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
-                        child: Text(listaCarrito.length.toString(),
+                        child: Text(_cart.length.toString(),
                           // ignore: prefer_const_constructors
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.0,),),
                   ),),],),
               onTap: () {
-                //if (listaCarrito.isNotEmpty)
-                  //Navigator.of(context).push(MaterialPageRoute(
-                    //builder: (context) => Cart(listaCarrito),
-                  //),
-                //);
+                if (_cart.isNotEmpty) {
+                  Navigator.of(context).push(MaterialPageRoute
+                  (builder: (context) => CartPage())); 
+                }   
               },
         ),)],),
-      drawer: MenuLateral(),
+      drawer: MenuLateral(),*/
       body: Column(
         children: [
           // ignore: prefer_const_constructors
@@ -149,10 +157,10 @@ class _ProductoPageState extends State<ProductoPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextWidget(text: "Lastest Products", fontSize: 25,),
+                TextWidget(text: "Últimos Productos", fontSize: 25,),
                 Row(
                   children: [
-                    TextWidget(text: "View All", fontSize: 16, color: Colors.grey,),
+                    TextWidget(text: "Ver Todo", fontSize: 16, color: Colors.grey,),
                     IconButton(
                       icon: const Icon(Icons.arrow_forward_ios,
                         color: Colors.grey, 
@@ -173,7 +181,6 @@ class _ProductoPageState extends State<ProductoPage> {
                 // ignore: unnecessary_null_comparison
                 itemCount: productos == null ? 0 : productos.length,
                 itemBuilder: (_, i) {
-                  var item = productos[i];
                   return GestureDetector(
                     onTap: () {
                       /*Navigator.push(context,
@@ -252,7 +259,7 @@ class _ProductoPageState extends State<ProductoPage> {
                                         Align(
                                           alignment: Alignment.bottomRight,
                                           child: GestureDetector(
-                                            child: ((!listaDeseos.contains(item))
+                                            child: ((!_addingToList)
                                               ? const Icon(
                                                   Icons.favorite_outline,
                                                   size: 33,)
@@ -261,22 +268,17 @@ class _ProductoPageState extends State<ProductoPage> {
                                                   color: Colors.red,
                                                   size: 33,)
                                             ),
-                                            onTap: () {
+                                            onTap: () async {
                                               setState(() {
-                                                if (!listaDeseos.contains(item)) {
-                                                  listaDeseos.add(item);
-                                                } else {
-                                                  listaDeseos.remove(item);
-                                                }                                                
+                                                _addingToList = true;
                                               });
+                                              await wishApi.addProductToList(productos[i].id);
                                             },
                                         ),),
                                         Align(
                                           alignment: Alignment.bottomRight,
                                           child: GestureDetector(
-                                            child: 
-                                            //((!listaCarrito.contains(item))
-                                            ((!_addingToCart)
+                                            child: ((!_addingToCart)
                                               // ignore: prefer_const_constructors
                                               ? Icon(
                                                   Icons.shopping_cart,

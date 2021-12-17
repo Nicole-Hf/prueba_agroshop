@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:prueba_agroshop/pages/producto_page.dart';
+import 'package:prueba_agroshop/pages/home_page.dart';
 import 'package:prueba_agroshop/services/auth_services.dart';
 import 'package:prueba_agroshop/services/globals.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
@@ -23,18 +23,16 @@ class _LoginPageState extends State<LoginPage> {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
-      //print(dataUser['id']);
       if (response.statusCode == 200) {
         idUserAutentificado = dataUser['id'];
         nameUserAutentificado = dataUser['name'];
         idClienteAutentificado = dataUser['cliente'];
         idCarritoCliente = dataUser['carrito'];
-        // ignore: avoid_print
-        print(idCarritoCliente);
+        idWishlistCliente = dataUser['wishlist'];
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => ProductoPage(),
+              builder: (BuildContext context) => const HomePage(),
             ));
       } else {
         errorSnackBar(context, responseMap.values.first);
