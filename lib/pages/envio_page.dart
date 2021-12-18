@@ -1,24 +1,111 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:prueba_agroshop/pages/factura_page.dart';
+import 'package:prueba_agroshop/services/envio_services.dart';
+import 'package:prueba_agroshop/utils/rounded_button.dart';
 
 // ignore: use_key_in_widget_constructors
 class EnvioPage extends StatefulWidget {
   // ignore: prefer_const_declarations
   static final routeName = 'envio';
-
   @override
   _EnvioPageState createState() => _EnvioPageState();
 }
 
-class _EnvioPageState() extends State<EnvioPage> {
+class _EnvioPageState extends State<EnvioPage> {
   String _pais = '';
   String _ciudad = '';
   String _direccion = '';
 
+///////////////
+  createEnvioPressed() async {
+    http.Response response =
+        await EnvioService.createEnvio(_pais, _ciudad, _direccion);
+    Map responseMap = jsonDecode(response.body);
+
+    //var dataUser = json.decode(response.body);
+    /*no entiendo    if (response.statusCode == 200) {
+        idUserAutentificado = dataUser['id'];
+        nameUserAutentificado = dataUser['name'];
+        idClienteAutentificado = dataUser['cliente'];
+        idCarritoCliente = dataUser['carrito'];
+        idWishlistCliente = dataUser['wishlist']; */
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => const FacturaPage(),
+        ));
+    /*} else {
+        errorSnackBar(context, responseMap.values.first[0]);
+      */
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          //ver
+          child: Column(
+            children: <Widget>[
+              Card(
+                //av.?
+                elevation: 4.0,
+                color: Colors.white,
+                margin: const EdgeInsets.only(left: 20, right: 20),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: "Pais"),
+                      onChanged: (value) {
+                        _pais = value;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: "Ciudad"),
+                      onChanged: (value) {
+                        _ciudad = value;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: "Direccion"),
+                      onChanged: (value) {
+                        _direccion = value;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    RoundedButton(
+                      btnText: 'Generar Factura',
+                      onBtnPressed: () => createEnvioPressed(),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    const SizedBox(height: 15)
+                  ]),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
