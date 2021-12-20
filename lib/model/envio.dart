@@ -3,25 +3,27 @@ class PedidoEnvio {
     required this.id,
     required this.carritoid,
     required this.tarjetaid,
-    required this.pais,
+    required this.departamento,
     required this.ciudad,
-    required this.direccion,
-    required this.estadoEnvio,
+    required this.direccionEnvio,
+    //required this.estadoEnvio,
     required this.fechaPedido,
     required this.fechaEntrega,
     required this.monto,
+    required this.telfCliente,
   });
 
   final int id;
   final int carritoid;
   final int tarjetaid;
-  final String pais;
+  final String departamento;
   final String ciudad;
-  final String direccion;
-  final String estadoEnvio;
+  final String direccionEnvio;
+  //final String estadoEnvio;
   final DateTime fechaPedido;
   final DateTime fechaEntrega; //estimar hasta 5 dias despues
   final double monto;
+  final String telfCliente;
 
   //esto no manejo bien
 
@@ -29,26 +31,28 @@ class PedidoEnvio {
     : id = json['id'],
       carritoid = json['carrito_id'],
       tarjetaid = json['tarjeta_id'],
-      pais = json['pais'],
+      departamento = json['departamento'],
       ciudad = json['ciudad'],
-      direccion = json['direccion'],
-      estadoEnvio = json['estado_Envio'],
-      fechaPedido = json['fecha_Pedido'],
-      fechaEntrega = json['fecha_Entrega'],
-      monto = json['monto'];
+      direccionEnvio = json['direccionEnvio'],
+      //estadoEnvio = json['estado_Envio'],
+      fechaPedido = json['fechaPago'],
+      fechaEntrega = json['fechaEnvio'],
+      monto = json['monto'],
+      telfCliente = json['telfCliente'];
 
   Map toJson() {
     return {
       "id": id,
       "carrito_id": carritoid,
       "tarjeta_id": tarjetaid,
-      "pais": pais,
+      "departamento": departamento,
       "ciudad": ciudad,
-      "direccion": direccion,
-      "estado_Envio": estadoEnvio,
-      "fecha_Pedido": fechaPedido,
-      "fecha_Entrega": fechaEntrega,
+      "direccionEnvio": direccionEnvio,
+      //"estado_Envio": estadoEnvio,
+      "fechaPago": fechaPedido,
+      "fechaEnvio": fechaEntrega,
       "monto": monto,
+      "telfCliente": telfCliente,
     };
   }
 
@@ -56,25 +60,27 @@ class PedidoEnvio {
         id: json['id'],
         carritoid: json['carrito_id'],
         tarjetaid: json['tarjeta_id'],
-        pais: json['pais'],
+        departamento: json['departamento'],
         ciudad: json['ciudad'],
-        direccion: json['direccion'],
-        estadoEnvio: json['estado_Envio'],
-        fechaPedido: json['fecha_Pedido'],
-        fechaEntrega: json['fecha_Entrega'],
+        direccionEnvio: json['direccionEnvio'],
+        //estadoEnvio: json['estado_Envio'],
+        fechaPedido: json['fechaPago'],
+        fechaEntrega: json['fechaEnvio'],
         monto: json['monto'],
+        telfCliente: json['telfCliente'],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
         "carrito_id": carritoid,
         "tarjeta_id": tarjetaid,
-        "pais": pais,
+        "departamento": departamento,
         "ciudad": ciudad,
-        "direccion": direccion,
-        "estado_Envio": estadoEnvio,
-        "fecha_Pedido": fechaPedido,
-        "fecha_Entrega": fechaEntrega,
+        "direccionEnvio": direccionEnvio,
+        //"estado_Envio": estadoEnvio,
+        "fechaPago": fechaPedido,
+        "fechaEnvio": fechaEntrega,
         "monto": monto,
+        "telfCliente": telfCliente,
       };
 }

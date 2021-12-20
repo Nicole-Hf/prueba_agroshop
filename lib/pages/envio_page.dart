@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/pages/factura_page.dart';
 import 'package:prueba_agroshop/services/envio_services.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
+import 'package:prueba_agroshop/variables.dart';
 
 // ignore: use_key_in_widget_constructors
 class EnvioPage extends StatefulWidget {
@@ -15,23 +16,19 @@ class EnvioPage extends StatefulWidget {
 }
 
 class _EnvioPageState extends State<EnvioPage> {
-  String _pais = '';
+  String _departamento = '';
   String _ciudad = '';
   String _direccion = '';
+  String _tarjeta = '';
+  int _carrito = idClienteAutentificado;
+  String _fecha = '';
+  String _telefono = '';
 
-///////////////
   createEnvioPressed() async {
     http.Response response =
-        await EnvioService.createEnvio(_pais, _ciudad, _direccion);
+        await EnvioService.createEnvio(int.parse(_tarjeta), _departamento, _ciudad, _direccion, _fecha, _telefono);
     Map responseMap = jsonDecode(response.body);
 
-    //var dataUser = json.decode(response.body);
-    /*no entiendo    if (response.statusCode == 200) {
-        idUserAutentificado = dataUser['id'];
-        nameUserAutentificado = dataUser['name'];
-        idClienteAutentificado = dataUser['cliente'];
-        idCarritoCliente = dataUser['carrito'];
-        idWishlistCliente = dataUser['wishlist']; */
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -67,7 +64,7 @@ class _EnvioPageState extends State<EnvioPage> {
                     TextFormField(
                       decoration: InputDecoration(labelText: "Pais"),
                       onChanged: (value) {
-                        _pais = value;
+                        _departamento = value;
                       },
                     ),
                     const SizedBox(
