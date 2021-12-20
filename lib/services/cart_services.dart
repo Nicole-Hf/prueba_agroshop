@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:prueba_agroshop/model/carrito.dart';
 import 'package:prueba_agroshop/services/globals.dart';
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/variables.dart';
@@ -67,5 +68,31 @@ class CartService {
     } else {
       return false;
     }
+  }
+
+  Future<CartProduct> getCartItems() async {
+    var url = Uri.parse(baseURL+'cartproduct/$idClienteAutentificado');
+    http.Response response = await http.get(url, headers:headers);
+    switch (response.statusCode) {
+      case 200:
+        var body = jsonDecode(response.body);
+        return CartProduct.fromJson(body);
+      // ignore: dead_code
+      break;
+      default:
+        throw ResourceNotFound('CartProduct');
+      // ignore: dead_code
+      break;
+    }
+  }
+}
+
+class ResourceNotFound implements Exception{
+  String messag;
+  ResourceNotFound(this.messag);
+
+  @override
+  String toString(){
+    return "Resource $messag Not Fount" ;
   }
 }

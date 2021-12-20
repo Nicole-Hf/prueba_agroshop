@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/producto.dart';
 import 'package:prueba_agroshop/model/wishlist.dart';
 import 'package:prueba_agroshop/services/api.dart';
+import 'package:prueba_agroshop/services/cart_services.dart';
+import 'package:prueba_agroshop/services/wish_services.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
+import 'package:prueba_agroshop/variables.dart';
 
 // ignore: use_key_in_widget_constructors
 class WishlistPage extends StatefulWidget {
@@ -18,8 +21,9 @@ class WishlistPage extends StatefulWidget {
 
 class _WishlistPageState extends State<WishlistPage> {
   var articles = <Wishlist>[];
-  var listaCarrito = <ProductoInfo>[];
-  var listaDeseos = <ProductoInfo>[];
+  CartService cartApi = CartService();
+  bool _addingToCart = false;
+  WishlistService wishApi = WishlistService();
 
   @override
   void initState() {
@@ -32,7 +36,7 @@ class _WishlistPageState extends State<WishlistPage> {
   }
 
   _initData() async {
-    await CallApi().getPublicData("wishlist/1").then((response) {
+    await CallApi().getPublicData("wishlist/$idWishlistCliente").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         articles = list.map((model) => Wishlist.fromJson(model)).toList();
@@ -45,13 +49,6 @@ class _WishlistPageState extends State<WishlistPage> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        elevation: 0,
-        title: const Text('AgroShop',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
-      ),),
       body: Container(
       color: Colors.white,
       child: SafeArea(
@@ -141,46 +138,27 @@ class _WishlistPageState extends State<WishlistPage> {
                                           padding: const EdgeInsets.only(right: 8.0, left: 8.0,),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
+                                            children: [                                            
                                               Align(
                                                 alignment: Alignment.bottomRight,
                                                 child: GestureDetector(
-                                                  child: (
-                                                    (!listaDeseos.contains(article))
+                                                  child: ((!_addingToCart)
                                                     ? const Icon(
-                                                        Icons.favorite_outline,
-                                                        size: 33,
-                                                      )
+                                                        Icons.shopping_cart,
+                                                        color: Colors.black,
+                                                        size: 33,)
                                                     : const Icon(
-                                                        Icons.favorite,
-                                                        color: Colors.red,
-                                                        size: 33,
-                                                      )
-                                                    ),
-                                                    onTap: () {
-                                                      
-                                                    },
+                                                        Icons.shopping_cart,
+                                                        color: Colors.green,
+                                                        size: 33,)
                                                   ),
-                                                ),
-                                                Align(
-                                                  alignment: Alignment.bottomRight,
-                                                  child: GestureDetector(
-                                                    child: (
-                                                      (!listaCarrito.contains(article))
-                                                      ? const Icon(
-                                                          Icons.shopping_cart,
-                                                          color: Colors.black,
-                                                          size: 33,
-                                                        )
-                                                      : const Icon(
-                                                          Icons.shopping_cart,
-                                                          color: Colors.green,
-                                                          size: 33,
-                                                        )
-                                                      ),
-                                                      onTap: () {
-                                                      },
-                                              ),)]
+                                                  onTap: () async {
+                                                    setState(() {
+                                                      _addingToCart = true;
+                                                    });
+                                                    await cartApi.addProductToCart(article.productoid);                                    
+                                                  },
+                                            ),) ]
                                         ))],
                                   ))),
                             ],)));

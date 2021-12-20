@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/carrito.dart';
 import 'package:prueba_agroshop/pages/card_page.dart';
-import 'package:prueba_agroshop/pages/envio_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
@@ -34,11 +33,10 @@ class _CartPageState extends State<CartPage> {
     super.initState();
   }
 
-  _getCartItems() async {
+  Future _getCartItems() async {
     await _initData();
   }
 
-  //llamada a las API
   _initData() async {
     await CallApi().getPublicData("cartproduct/$idCarritoCliente").then((response) {
       setState(() {
@@ -84,15 +82,9 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        elevation: 0,
-        title: const Text('AgroShop',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,),),),
-      body: GestureDetector(
+      body: RefreshIndicator (
+        onRefresh: _getCartItems,
+        child: GestureDetector(
         onVerticalDragUpdate: (details) {
           if (_enable && _firstScroll) {
             _scrollController.jumpTo(_scrollController.position.pixels - details.delta.dy);
@@ -225,6 +217,7 @@ class _CartPageState extends State<CartPage> {
                           fontSize: 22.0))
               ),),),),
       ],))),
+      ),
     );
   }
 }

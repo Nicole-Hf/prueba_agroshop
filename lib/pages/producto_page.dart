@@ -215,7 +215,7 @@ class _ProductoPageState extends State<ProductoPage> {
                                         Align(
                                           alignment: Alignment.bottomRight,
                                           child: GestureDetector(
-                                            child: ((_addingToList)
+                                            child: ((!_addingToList)
                                               ? const Icon(
                                                   Icons.favorite_outline,
                                                   size: 33,)

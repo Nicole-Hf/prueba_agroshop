@@ -13,7 +13,7 @@ class WishlistService {
     };
     var body = json.encode(data);
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/wishlist/add');
+    var url = Uri.parse(baseURL+'wishlist/add');
     http.Response response = await http.post(
       url, 
       headers: headers, 
