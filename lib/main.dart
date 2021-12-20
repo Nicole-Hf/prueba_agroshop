@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/pages/home_page.dart';
 import 'package:prueba_agroshop/pages/login_page.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
-import 'package:prueba_agroshop/pages/pedido_lista.dart';
+import 'package:prueba_agroshop/pages/cart_page.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
 import 'package:prueba_agroshop/pages/register_page.dart';
 import 'package:prueba_agroshop/pages/wishlist_page.dart';
