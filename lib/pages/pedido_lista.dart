@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/carrito.dart';
+import 'package:prueba_agroshop/pages/envio_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
@@ -209,9 +210,9 @@ class _CartPageState extends State<CartPage> {
                     textColor: Colors.white,
                     color: Colors.green,
                     onPressed: () {
-                      //Navigator.push(context,MaterialPageRoute(
-                      //builder: (BuildContext context) => const EnvioPage(),
-                      //));
+                      Navigator.push(context,MaterialPageRoute(
+                      builder: (BuildContext context) => EnvioPage(),
+                      ));
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),),
