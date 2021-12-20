@@ -19,15 +19,15 @@ class _EnvioPageState extends State<EnvioPage> {
   String _departamento = '';
   String _ciudad = '';
   String _direccion = '';
-  String _tarjeta = '';
+  //String _tarjeta = '';
   String _fecha = '';
   String _telefono = '';
 
   createEnvioPressed() async {
     http.Response response =
-        await EnvioService.createEnvio(int.parse(_tarjeta), _departamento, _ciudad, _direccion, 
+        await EnvioService.createEnvio(/*int.parse(_tarjeta),*/ _departamento, _ciudad, _direccion, 
         _fecha, _telefono);
-    Map responseMap = jsonDecode(response.body);
+    //Map responseMap = jsonDecode(response.body);
 
     Navigator.push(
         context,
@@ -42,6 +42,15 @@ class _EnvioPageState extends State<EnvioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        elevation: 0,
+        title: const Text(
+          'AgroShop',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,),),),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -58,17 +67,17 @@ class _EnvioPageState extends State<EnvioPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(children: [
-                    TextFormField(
+                    /*TextFormField(
                       decoration: InputDecoration(labelText: "Tarjeta"),
                       onChanged: (value) {
                         _tarjeta = value;
                       },
-                    ),
+                    ),*/
                     const SizedBox(
                       height: 20,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: "Departamento"),
+                      decoration: const InputDecoration(labelText: "Departamento"),
                       onChanged: (value) {
                         _departamento = value;
                       },
@@ -77,7 +86,7 @@ class _EnvioPageState extends State<EnvioPage> {
                       height: 30,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: "Ciudad"),
+                      decoration: const InputDecoration(labelText: "Ciudad"),
                       onChanged: (value) {
                         _ciudad = value;
                       },
@@ -86,7 +95,7 @@ class _EnvioPageState extends State<EnvioPage> {
                       height: 30,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: "Direccion"),
+                      decoration: const InputDecoration(labelText: "Direccion"),
                       onChanged: (value) {
                         _direccion = value;
                       },
@@ -95,7 +104,7 @@ class _EnvioPageState extends State<EnvioPage> {
                       height: 30,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: "Fecha"),
+                      decoration: const InputDecoration(labelText: "Fecha"),
                       onChanged: (value) {
                         _fecha = value;
                       },
@@ -104,7 +113,7 @@ class _EnvioPageState extends State<EnvioPage> {
                       height: 30,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(labelText: "Celular"),
+                      decoration: const InputDecoration(labelText: "Celular"),
                       onChanged: (value) {
                         _telefono = value;
                       },
