@@ -10,7 +10,7 @@ class Tarjeta {
 
   final int id;
   final String nombre;
-  final String numero;
+  final int numero;
   final int cvv;
   final String fecha;
   final int cliente;

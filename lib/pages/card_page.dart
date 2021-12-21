@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/tarjeta.dart';
 import 'package:prueba_agroshop/pages/envio_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
-import 'package:prueba_agroshop/utils/text_widget.dart';
 import 'package:prueba_agroshop/variables.dart';
 
+// ignore: use_key_in_widget_constructors
 class CardPage extends StatefulWidget {
   // ignore: prefer_const_declarations
   static final routeName = 'creditcards';
@@ -41,7 +41,6 @@ class _CardPageState extends State<CardPage> {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -90,7 +89,7 @@ class _CardPageState extends State<CardPage> {
                                 _buildLogosBlock(),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
-                                  child: Text(listcard.numero,
+                                  child: Text(listcard.numero.toString(),
                                     style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 21,
