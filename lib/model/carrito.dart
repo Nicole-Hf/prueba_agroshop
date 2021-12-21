@@ -13,7 +13,8 @@ class CartProduct {
     required this.precio,
     required this.imagen,
     required this.cantidad,
-    required this.subtotal
+    required this.subtotal,
+    required this.stock,
   });
 
   final int id;
@@ -24,6 +25,7 @@ class CartProduct {
   final String imagen;
   late final int cantidad;
   final String subtotal;
+  final int stock;
 
   CartProduct.fromJson(Map json) 
     : id = json['id'],
@@ -33,7 +35,8 @@ class CartProduct {
       precio = json['precio'],
       imagen = json['imagen'],
       cantidad = json['cantidad'],
-      subtotal = json['subtotal'];
+      subtotal = json['subtotal'],
+      stock = json['stock'];
 
   Map toJson() {
     return {
@@ -45,6 +48,7 @@ class CartProduct {
       "imagen": imagen,
       "cantidad": cantidad,
       "subtotal": subtotal,
+      "stock": stock,
     };
   }
 
@@ -57,6 +61,7 @@ class CartProduct {
     imagen: json["imagen"],
     cantidad: json["cantidad"],
     subtotal: json["subtotal"],
+    stock: json["stock"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -68,5 +73,6 @@ class CartProduct {
     "imagen": imagen,
     "cantidad": cantidad,
     "subtotal": subtotal,
+    "stock": stock,
   };
 }

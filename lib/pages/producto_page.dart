@@ -225,9 +225,9 @@ class _ProductoPageState extends State<ProductoPage> {
                                                   size: 33,)
                                             ),
                                             onTap: () async {
-                                              //setState(() {
+                                              setState(() {
                                                 _addingToList = true;
-                                              //});
+                                              });
                                               await wishApi.addProductToList(productos[i].id);
                                             },
                                         ),),

@@ -82,9 +82,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: RefreshIndicator (
-        onRefresh: _getCartItems,
-        child: GestureDetector(
+      body: GestureDetector(
         onVerticalDragUpdate: (details) {
           if (_enable && _firstScroll) {
             _scrollController.jumpTo(_scrollController.position.pixels - details.delta.dy);
@@ -100,7 +98,8 @@ class _CartPageState extends State<CartPage> {
               ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+                //physics: const NeverScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: _cart.length,
                 itemBuilder: (context, index) {
                   var item = _cart[index];
@@ -133,16 +132,16 @@ class _CartPageState extends State<CartPage> {
                                         Container(
                                           width: 120,
                                           height: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.amber[700],
+                                          decoration: const BoxDecoration(
+                                            color: Colors.purple,
                                               // ignore: prefer_const_literals_to_create_immutables
                                               boxShadow: [
                                                 // ignore: prefer_const_constructors
                                                 BoxShadow(
                                                   blurRadius: 6.0,
                                                   color: Colors.black,
-                                                  offset: const Offset(0.0, 1.0),)],
-                                              borderRadius: const BorderRadius.all(Radius.circular(50.0),)),
+                                                  offset: Offset(0.0, 1.0),)],
+                                              borderRadius: BorderRadius.all(Radius.circular(50.0),)),
                                           margin: const EdgeInsets.only(top: 20.0),
                                           padding: const EdgeInsets.all(2.0),
                                           child: Row(
@@ -171,10 +170,10 @@ class _CartPageState extends State<CartPage> {
                                 ],),
                                 const SizedBox(width: 38.0,),
                                 Text(
-                                  item.precio,
+                                  "Bs. "+item.precio,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 24.0,
+                                    fontSize: 20.0,
                                     color: Colors.black
                                   )
                                 ),
@@ -185,7 +184,8 @@ class _CartPageState extends State<CartPage> {
                                   icon: const Icon(
                                     Icons.cancel_outlined,
                                     color: Colors.grey))
-                          ],)
+                          ],
+                        )
                     ],),),
                     const Divider(color: Colors.greenAccent,)
                 ],);
@@ -217,7 +217,6 @@ class _CartPageState extends State<CartPage> {
                           fontSize: 22.0))
               ),),),),
       ],))),
-      ),
     );
   }
 }

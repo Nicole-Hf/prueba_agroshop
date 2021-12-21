@@ -75,50 +75,81 @@ class _CardPageState extends State<CardPage> {
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) => EnvioPage()));
                           },
+                        child: Card(
+                          elevation: 4.0,
+                          color: const Color(0xFF090943),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),),
                           child: Container(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            height: 250,
-                            child: Stack(
-                              children: [Positioned(
-                                top: 35,
-                                child: Material(
-                                  elevation: 0.0,
-                                  child: Container(height: 180.0, width: width * 0.9,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(0.0),
-                                      boxShadow: [BoxShadow(
-                                        color: Colors.grey.withOpacity(0.3),
-                                        // ignore: prefer_const_constructors
-                                        offset: Offset(0.0, 0.0),
-                                        blurRadius: 20.0,
-                                        spreadRadius: 4.0)],),
-                              ))),                             
-                              Positioned(
-                                top: 45,
-                                left: width * 0.4,
-                                // ignore: sized_box_for_whitespace
-                                child: Container(height: 200, width: 150,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      TextWidget(
-                                        text: listcard.numero.toString(),
-                                        fontSize: 20,
-                                        color: Colors.black,),
-                                      SizedBox(height: height * 0.02),
-                                      TextWidget(
-                                        text: listcard.fecha,
-                                        fontSize: 16,
-                                        // ignore: prefer_const_constructors
-                                        color: Color(0xFFa9b3bd)),
-                                        // ignore: prefer_const_constructors
-                                ],))),
-                        ],)));
+                            height: 200,
+                            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 22.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                _buildLogosBlock(),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Text(listcard.numero,
+                                    style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 21,
+                                    fontFamily: 'CourrierPrime'),
+                                ),),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    _buildDetailsBlock(label: 'CARDHOLDER',value: listcard.nombre,),
+                                    _buildDetailsBlock(label: 'VALID THRU', value: listcard.fecha),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                        );
                       }
                     ).toList(),
               ),),),
       ],)),)
+    );
+  }
+
+  // Build the top row containing logos
+  Row _buildLogosBlock() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Image.asset(
+          "assets/images/contact_less.png",
+          height: 20,
+          width: 18,
+        ),
+        Image.asset(
+          "assets/images/mastercard.png",
+          height: 50,
+          width: 50,
+        ),
+      ],
+    );
+  }
+
+// Build Column containing the cardholder and expiration information
+  Column _buildDetailsBlock({required String label, required String value}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: const TextStyle(
+              color: Colors.grey, fontSize: 9, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+        )
+      ],
     );
   }
 }
