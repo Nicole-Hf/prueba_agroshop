@@ -47,7 +47,7 @@ class _CardPageState extends State<CardPage> {
         centerTitle: true,
         elevation: 0,
         title: const Text(
-          'AgroShop',
+          'Forma de Pago',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,),),),

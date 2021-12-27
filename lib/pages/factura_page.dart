@@ -11,7 +11,8 @@ class FacturaPage extends StatefulWidget {
 class _FacturaPageState extends State<FacturaPage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      body: new Container(),
+    );
   }
 }
