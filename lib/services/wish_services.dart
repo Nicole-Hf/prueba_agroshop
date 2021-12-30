@@ -26,4 +26,25 @@ class WishlistService {
       return false;
     }
   }
+
+  deleteProductToList(int productID) async {
+    Map data = {
+      "producto_id" : productID,
+      "wishlist_id" : idWishlistCliente,
+    };
+    var body = json.encode(data);
+
+    var url = Uri.parse(baseURL+'wishlist/destroy');
+    http.Response response = await http.post(
+      url,
+      headers: headers,
+      body: body
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/pages/home_page.dart';
+import 'package:prueba_agroshop/home_page.dart';
 import 'package:prueba_agroshop/pages/login_page.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
 import 'package:prueba_agroshop/pages/cart_page.dart';

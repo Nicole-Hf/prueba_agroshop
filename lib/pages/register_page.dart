@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/pages/home_page.dart';
+import 'package:prueba_agroshop/home_page.dart';
 import 'package:prueba_agroshop/pages/login_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/services/auth_services.dart';

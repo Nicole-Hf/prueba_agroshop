@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:prueba_agroshop/pages/home_page.dart';
+import 'package:prueba_agroshop/home_page.dart';
 import 'package:prueba_agroshop/services/auth_services.dart';
 import 'package:prueba_agroshop/services/globals.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';

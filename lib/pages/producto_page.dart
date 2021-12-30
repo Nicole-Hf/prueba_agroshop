@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prueba_agroshop/model/categoria.dart';
 import 'package:prueba_agroshop/model/producto.dart';
-import 'package:prueba_agroshop/pages/allProductos.dart';
+import 'package:prueba_agroshop/pages/allProducts_page.dart';
+import 'package:prueba_agroshop/pages/filterProduct_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
 import 'package:prueba_agroshop/services/wish_services.dart';
 import 'package:prueba_agroshop/utils/text_widget.dart';
+import 'package:prueba_agroshop/variables.dart';
 
 // ignore: use_key_in_widget_constructors
 class ProductoPage extends StatefulWidget {
@@ -30,7 +32,6 @@ class _ProductoPageState extends State<ProductoPage> {
   bool _addingToCart = false;
 
   WishlistService wishApi = WishlistService();
-  bool _addingToList = false;
 
   @override
   void initState() {
@@ -44,14 +45,14 @@ class _ProductoPageState extends State<ProductoPage> {
 
   //llamada a las API
   _initData() async {
-    await CallApi().getPublicData("someproducts").then((response) {
+    await CallApi().getPublicData("someproducts/$idWishlistCliente").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         productos = list.map((model) => ProductoInfo.fromJson(model)).toList();
       });
     });
 
-    await CallApi().getPublicData("somecategories").then((response) {
+    await CallApi().getPublicData("allcategories").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         categorias = list.map((model) => Categoria.fromJson(model)).toList();
@@ -86,7 +87,16 @@ class _ProductoPageState extends State<ProductoPage> {
               // ignore: unnecessary_null_comparison
               itemCount: categorias == null ? 0 : categorias.length,
               itemBuilder: (_, c) {
-                return categorias.isEmpty
+                return GestureDetector(
+                  onTap: () {
+                    idCategory = categorias[c].id;
+                    print(idCategory);
+                    category = categorias[c].nombre;
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FilterPage())
+                    );
+                  },
+                  child: categorias.isEmpty
                   // ignore: prefer_const_constructors
                   ? CircularProgressIndicator()
                   : Padding(
@@ -104,8 +114,9 @@ class _ProductoPageState extends State<ProductoPage> {
                         children: <Widget>[
                           Text(categorias[c].nombre,)
                         ],
-                  ),),);
-                }
+                  ),),)
+                );
+              }
           )),
           SizedBox(height: height * 0.02,),
           Container(
@@ -123,7 +134,7 @@ class _ProductoPageState extends State<ProductoPage> {
                         size: 16),
                       onPressed: () {
                         Navigator.push(context,MaterialPageRoute(
-                            builder: (BuildContext context) => AllProducts(),));
+                            builder: (BuildContext context) => AllProductsPage(),));
                       }
                     )
                 ],)
@@ -215,7 +226,7 @@ class _ProductoPageState extends State<ProductoPage> {
                                         Align(
                                           alignment: Alignment.bottomRight,
                                           child: GestureDetector(
-                                            child: ((!_addingToList)
+                                            child: ((!productos[i].addingWL)
                                               ? const Icon(
                                                   Icons.favorite_outline,
                                                   size: 33,)
@@ -226,7 +237,7 @@ class _ProductoPageState extends State<ProductoPage> {
                                             ),
                                             onTap: () async {
                                               setState(() {
-                                                _addingToList = true;
+                                                productos[i].addingWL;
                                               });
                                               await wishApi.addProductToList(productos[i].id);
                                             },
