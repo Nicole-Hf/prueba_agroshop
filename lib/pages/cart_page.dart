@@ -38,7 +38,9 @@ class _CartPageState extends State<CartPage> {
   }
 
   _initData() async {
-    await CallApi().getPublicData("cartproduct/$idCarritoCliente").then((response) {
+    await CallApi()
+        .getPublicData("cartproduct/$idCarritoCliente")
+        .then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
         _cart = list.map((model) => CartProduct.fromJson(model)).toList();
@@ -46,7 +48,7 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  Container pagoTotal(List<CartProduct> _cart) {
+  /*Container pagoTotal(List<CartProduct> _cart) {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(left: 120),
@@ -58,15 +60,14 @@ class _CartPageState extends State<CartPage> {
           Text(
             "Total: Bs.-${valorTotal(_cart)}",
             style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-              color: Colors.black
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                color: Colors.black),
           )
         ],
       ),
     );
-  }
+  }*/
 
   String valorTotal(List<CartProduct> listaProductos) {
     double total = 0.0;
@@ -82,141 +83,107 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: GestureDetector(
-        onVerticalDragUpdate: (details) {
-          if (_enable && _firstScroll) {
-            _scrollController.jumpTo(_scrollController.position.pixels - details.delta.dy);
-          }
-        },
-        onVerticalDragEnd: (_) {
-          if (_enable) _firstScroll = false;
-        },
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              const SizedBox(height: 20,),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                //physics: const NeverScrollableScrollPhysics(),
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: _cart.length,
-                itemBuilder: (context, index) {
-                  var item = _cart[index];
-                  return Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: SizedBox(
-                                    width: 100,
-                                    height: 100,
-                                    child: Image.network("http://10.0.2.2:8000" + item.imagen,
-                                      fit: BoxFit.contain
-                                )),),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      item.nombre,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0,
-                                        color: Colors.black)),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 120,
-                                          height: 40,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.purple,
-                                              // ignore: prefer_const_literals_to_create_immutables
-                                              boxShadow: [
-                                                // ignore: prefer_const_constructors
-                                                BoxShadow(
-                                                  blurRadius: 6.0,
-                                                  color: Colors.black,
-                                                  offset: Offset(0.0, 1.0),)],
-                                              borderRadius: BorderRadius.all(Radius.circular(50.0),)),
-                                          margin: const EdgeInsets.only(top: 20.0),
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              const SizedBox(height: 8.0),
-                                              IconButton(
-                                                onPressed: () async{
-                                                  await cartApi.removeProductToCart(item.productoid);
-                                                },
-                                                icon: const Icon(Icons.remove),
-                                                color: Colors.white,),
-                                              TextWidget(
-                                                text: item.cantidad.toString(),
-                                                fontSize: 22,
-                                                color: Colors.white),
-                                              IconButton(
-                                                onPressed: () async {                                                
-                                                  await cartApi.addProductToCart(item.productoid);
-                                                },
-                                                icon: const Icon(Icons.add),
-                                                color: Colors.white,),
-                                              const SizedBox(height: 8.0,)
-                                        ],),)
-                                    ],)
-                                ],),
-                                const SizedBox(width: 38.0,),
-                                Text(
-                                  "Bs. "+item.precio,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0,
-                                    color: Colors.black
+      body: GestureDetector(onVerticalDragUpdate: (details) {
+        if (_enable && _firstScroll) {
+          _scrollController.jumpTo(_scrollController.position.pixels - details.delta.dy);
+        }
+      },
+      onVerticalDragEnd: (_) {
+        if (_enable) _firstScroll = false;
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20,),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              //physics: const NeverScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: _cart.length,
+              itemBuilder: (context, index) { var item = _cart[index];
+                return Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: SizedBox(width: 100, height: 100,
+                                  child: Image.network("http://10.0.2.2:8000" + item.imagen,
+                                    fit: BoxFit.contain)),
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Text(item.nombre,
+                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0, color: Colors.black)),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(icon: const Icon(Icons.chevron_left),
+                                        onPressed: () async {
+                                          await cartApi.removeProductToCart(item.productoid);
+                                      }),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(item.cantidad.toString(),
+                                          style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.normal),),
+                                      ),
+                                      IconButton(icon: const Icon( Icons.chevron_right),
+                                        onPressed: () async {
+                                          await cartApi.addProductToCart(item.productoid);
+                                        }),
+                                    ],
                                   )
-                                ),
-                                IconButton(
-                                  onPressed: () async{
-                                    await cartApi.deleteProductToCart(item.productoid);                                                         
-                                  },
-                                  icon: const Icon(
-                                    Icons.cancel_outlined,
-                                    color: Colors.grey))
-                          ],
-                        )
-                    ],),),
-                    const Divider(color: Colors.greenAccent,)
-                ],);
-              }),
-              const SizedBox(width: 10.0,),
-              pagoTotal(_cart),
-              const SizedBox(width: 20.0,),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: SizedBox(
-                  width: 220,
-                  height: 60,
-                  // ignore: deprecated_member_use
-                  child: FlatButton(
-                    textColor: Colors.white,
-                    color: Colors.green,
-                    onPressed: () {
-                      Navigator.push(context,MaterialPageRoute(
-                        builder: (BuildContext context) => CardPage(),
-                      ));
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),),
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 8, right: 8, top: 10, bottom: 10),
-                      child: Text("Comprar",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 22.0))
-              ),),),),
-      ],))),
+                                ],
+                              ),
+                              const SizedBox(width: 38.0,),
+                              Text("Bs. " + item.precio,
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0, color: Colors.black)),
+                              IconButton(icon: const Icon(Icons.cancel_outlined,color: Colors.grey),
+                                onPressed: () async {
+                                  await cartApi.deleteProductToCart(item.productoid);
+                              },)
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(color: Colors.grey)
+                  ],
+                );
+            }),
+            const SizedBox(width: 10.0,),
+            //pagoTotal(_cart),
+            const SizedBox(width: 20.0,),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CardPage()));
+                  },
+                  child: PhysicalModel(
+                    color: Colors.grey.withOpacity(.4),
+                    elevation: 2,
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.black),
+                      child: Container(
+                        margin: const EdgeInsets.all(14),
+                        alignment: Alignment.center,
+                        // ignore: prefer_const_constructors
+                        child: Text("Pagar Bs." + valorTotal(_cart),
+                          style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.normal),
+                        ),
+                    )),
+                  ),
+              )),
+          ],
+      ))),
     );
   }
 }

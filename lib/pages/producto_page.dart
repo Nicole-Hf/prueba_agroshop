@@ -90,7 +90,6 @@ class _ProductoPageState extends State<ProductoPage> {
                 return GestureDetector(
                   onTap: () {
                     idCategory = categorias[c].id;
-                    print(idCategory);
                     category = categorias[c].nombre;
                     Navigator.push(context,
                       MaterialPageRoute(builder: (context) => FilterPage())
