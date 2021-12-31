@@ -46,70 +46,65 @@ class _CardPageState extends State<CardPage> {
         backgroundColor: Colors.black,
         centerTitle: true,
         elevation: 0,
-        title: const Text(
-          'Forma de Pago',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,),),),
+        title: const Text('Forma de Pago',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
+      ),
       body: Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: height * 0.02,),
-            // ignore: prefer_const_constructors
-            SizedBox(height: 15,),
-            Expanded(
-              child: SingleChildScrollView(
-                child: listcards.isEmpty
-                  // ignore: prefer_const_constructors
-                  ? CircularProgressIndicator()
-                  : Column(
-                      children: listcards.map((listcard) {
-                        debugPrint(listcard.nombre);
-                        return GestureDetector(
-                          onTap: () {
-                            idCreditCard = listcard.id;
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => EnvioPage()));
-                          },
-                        child: Card(
-                          elevation: 4.0,
-                          color: const Color(0xFF090943),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),),
-                          child: Container(
-                            height: 200,
-                            padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 22.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                _buildLogosBlock(),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: Text(listcard.numero.toString(),
-                                    style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 21,
-                                    fontFamily: 'CourrierPrime'),
-                                ),),
-                                Row(
+        color: Colors.white,
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: height * 0.02,),
+              // ignore: prefer_const_constructors
+              SizedBox(height: 15,),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: listcards.isEmpty
+                    // ignore: prefer_const_constructors
+                    ? CircularProgressIndicator()
+                    : Column(
+                        children: listcards.map((listcard) {
+                          debugPrint(listcard.nombre);
+                          return GestureDetector(
+                            onTap: () {
+                              idCreditCard = listcard.id;
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => EnvioPage()));
+                            },
+                            child: Card(
+                              elevation: 4.0,
+                              color: const Color(0xFF090943),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),),
+                              child: Container(
+                                height: 200,
+                                padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 22.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    _buildDetailsBlock(label: 'CARDHOLDER',value: listcard.nombre,),
-                                    _buildDetailsBlock(label: 'VALID THRU', value: listcard.fecha),
+                                    _buildLogosBlock(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16.0),
+                                      child: Text(listcard.numero.toString(),
+                                        style: const TextStyle(color: Colors.white, fontSize: 21, fontFamily: 'CourrierPrime'),),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        _buildDetailsBlock(label: 'CARDHOLDER',value: listcard.nombre,),
+                                        _buildDetailsBlock(label: 'VALID THRU', value: listcard.fecha),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        )
-                        );
-                      }
-                    ).toList(),
+                              ),
+                            )
+                          );
+                        }).toList(),
               ),),),
+            _buildAddCardButton(icon: Icon(Icons.add), color: Color(0xFF081603),),
+            const SizedBox(height: 15,),
       ],)),)
     );
   }
@@ -149,6 +144,22 @@ class _CardPageState extends State<CardPage> {
               color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         )
       ],
+    );
+  }
+
+  Container _buildAddCardButton({required Icon icon, required Color color,}) {
+    return Container(
+      margin: const EdgeInsets.only(top: 24.0),
+      alignment: Alignment.center,
+      child: FloatingActionButton(
+        elevation: 2.0,
+        onPressed: () {
+          print("Add a credit card");
+        },
+        backgroundColor: color,
+        mini: false,
+        child: icon,
+      ),
     );
   }
 }
