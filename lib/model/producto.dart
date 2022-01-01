@@ -1,18 +1,16 @@
 class ProductoInfo {
- 
   ProductoInfo({
-    required this.id, 
-    required this.nombre, 
-    required this.descripcion, 
-    required this.precio, 
+    required this.id,
+    required this.nombre,
+    required this.descripcion,
+    required this.precio,
     required this.stock,
     required this.imagen,
-    required this.empresa, 
+    required this.empresa,
     required this.subcategoria,
     required this.categoria,
     //required this.cantidad
   });
-
 
   final int id;
   final String nombre;
@@ -35,7 +33,7 @@ class ProductoInfo {
         empresa = json['empresa_id'],
         subcategoria = json['subcategoria_id'],
         categoria = json['categoria'];
-        //cantidad = json['cantidad'];
+  //cantidad = json['cantidad'];
 
   Map toJson() {
     return {
