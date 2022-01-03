@@ -92,8 +92,7 @@ class _ProductoPageState extends State<ProductoPage> {
                     idCategory = categorias[c].id;
                     category = categorias[c].nombre;
                     Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FilterPage())
-                    );
+                      MaterialPageRoute(builder: (context) => FilterPage()));
                   },
                   child: categorias.isEmpty
                   // ignore: prefer_const_constructors

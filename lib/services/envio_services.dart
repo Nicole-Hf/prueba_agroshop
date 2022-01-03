@@ -4,7 +4,7 @@ import 'package:prueba_agroshop/services/globals.dart';
 import 'package:prueba_agroshop/variables.dart';
 
 class EnvioService {
-  static Future<http.Response> createEnvio(/*int tarjeta,*/ String departamento,
+  static Future<http.Response> createEnvio(String departamento,
       String ciudad, String direccion, String fecha, String telefono) async {
     Map data = {
       "carrito_id": idCarritoCliente,
@@ -23,6 +23,7 @@ class EnvioService {
       headers: headers, 
       body: body
     );
+    // ignore: avoid_print
     print(response.body);
     return response;
   }

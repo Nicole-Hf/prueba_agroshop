@@ -22,12 +22,9 @@ class _RegisterPageState extends State<RegisterPage> {
   String _name = '';
 
   createAccountPressed() async {
-    bool emailValid = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(_email);
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_email);
     if (emailValid) {
-      http.Response response =
-          await AuthServices.register(_name, _email, _password);
+      http.Response response = await AuthServices.register(_name, _email, _password);
       Map responseMap = jsonDecode(response.body);
       
       var dataUser = json.decode(response.body);

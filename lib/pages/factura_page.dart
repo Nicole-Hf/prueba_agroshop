@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class FacturaPage extends StatefulWidget {
@@ -12,7 +11,7 @@ class _FacturaPageState extends State<FacturaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new Container(),
+      body: Container(),
     );
   }
 }

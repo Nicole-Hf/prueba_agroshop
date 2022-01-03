@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -208,6 +210,7 @@ class _CreditCardsPageState extends State<CreditCardsPage> {
       child: FloatingActionButton(
         elevation: 2.0,
         onPressed: () {
+          // ignore: avoid_print
           print("Add a credit card");
         },
         backgroundColor: color,

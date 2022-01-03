@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -55,13 +57,11 @@ class _CardPageState extends State<CardPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: height * 0.02,),
-              // ignore: prefer_const_constructors
+              SizedBox(height: height * 0.02,),             
               SizedBox(height: 15,),
               Expanded(
                 child: SingleChildScrollView(
-                  child: listcards.isEmpty
-                    // ignore: prefer_const_constructors
+                  child: listcards.isEmpty                    
                     ? CircularProgressIndicator()
                     : Column(
                         children: listcards.map((listcard) {
@@ -154,6 +154,7 @@ class _CardPageState extends State<CardPage> {
       child: FloatingActionButton(
         elevation: 2.0,
         onPressed: () {
+          // ignore: avoid_print
           print("Add a credit card");
         },
         backgroundColor: color,

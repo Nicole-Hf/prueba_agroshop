@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:prueba_agroshop/model/carrito.dart';
+import 'package:prueba_agroshop/model/cart_item.dart';
 import 'package:prueba_agroshop/services/globals.dart';
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/variables.dart';
@@ -84,6 +84,25 @@ class CartService {
       // ignore: dead_code
       break;
     }
+  }
+
+  static Future<http.Response> createCart() async {
+    Map data = {
+      "cliente_id": idCarritoCliente,
+      "monto": null,
+      "estado": null,
+    };
+    var body = json.encode(data);
+
+    var url = Uri.parse(baseURL + 'create/cart');
+    http.Response response = await http.post(
+      url, 
+      headers: headers, 
+      body: body
+    );
+    // ignore: avoid_print
+    print(response.body);
+    return response;
   }
 }
 

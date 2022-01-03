@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/pages/register_page.dart';
+import 'package:prueba_agroshop/pages/login_page.dart';
 
 // ignore: use_key_in_widget_constructors
 class OnboardingPage extends StatelessWidget {
@@ -50,7 +50,7 @@ class OnboardingPage extends StatelessWidget {
                         color: Colors.green,   
                         onPressed: () {
                           Navigator.push(context,MaterialPageRoute(
-                            builder: (BuildContext context) => const RegisterPage(),
+                            builder: (BuildContext context) => const LoginPage(),
                           ));
                         },
                         shape: RoundedRectangleBorder(

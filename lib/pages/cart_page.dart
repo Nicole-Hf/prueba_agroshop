@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:prueba_agroshop/model/carrito.dart';
+import 'package:prueba_agroshop/model/cart_item.dart';
 import 'package:prueba_agroshop/pages/card_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
-import 'package:prueba_agroshop/utils/text_widget.dart';
 import 'package:prueba_agroshop/variables.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -47,27 +46,6 @@ class _CartPageState extends State<CartPage> {
       });
     });
   }
-
-  /*Container pagoTotal(List<CartProduct> _cart) {
-    return Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.only(left: 120),
-      height: 70,
-      width: 400,
-      color: Colors.grey[200],
-      child: Row(
-        children: <Widget>[
-          Text(
-            "Total: Bs.-${valorTotal(_cart)}",
-            style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-                color: Colors.black),
-          )
-        ],
-      ),
-    );
-  }*/
 
   String valorTotal(List<CartProduct> listaProductos) {
     double total = 0.0;
