@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_shopping_cart_sharp),
+            icon: Icon(Icons.shopping_cart),
             label: 'Cart',
             backgroundColor: Colors.black,
           ),

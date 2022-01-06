@@ -140,23 +140,24 @@ class _WishlistPageState extends State<WishlistPage> {
                                             children: [                                            
                                               Align(
                                                 alignment: Alignment.bottomRight,
-                                                child: GestureDetector(
-                                                  child: ((!_addingToCart)
-                                                    ? const Icon(
-                                                        Icons.shopping_cart,
-                                                        color: Colors.black,
-                                                        size: 33,)
-                                                    : const Icon(
-                                                        Icons.shopping_cart,
-                                                        color: Colors.green,
-                                                        size: 33,)
-                                                  ),
-                                                  onTap: () async {
-                                                    setState(() {
-                                                      _addingToCart = true;
-                                                    });
-                                                    await cartApi.addProductToCart(article.productoid);                                    
-                                                  },
+                                                child: IconButton(
+                                                  icon: const Icon(Icons.add_shopping_cart_outlined,
+                                                    color: Colors.black,
+                                                    size: 33,),
+                                                  onPressed: () async{
+                                                    showDialog(context: context, builder: (context) {
+                                                      Future.delayed(const Duration(seconds: 2), (){
+                                                        Navigator.of(context).pop(true);
+                                                      });
+                                                      return AlertDialog(
+                                                        title: const Text('Se agregó el producto al carrito'),
+                                                        content: Image.asset("assets/images/success.png", 
+                                                        height: 80,
+                                                        width: 80,)
+                                                    );
+                                                  });
+                                                  await cartApi.addProductToCart(article.id);
+                                                },
                                             ),) ]
                                         ))],
                                   ))),

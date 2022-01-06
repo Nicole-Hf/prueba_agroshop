@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/tarjeta.dart';
 import 'package:prueba_agroshop/pages/envio_page.dart';
+import 'package:prueba_agroshop/pages/formpedido_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/variables.dart';
 
@@ -69,7 +70,7 @@ class _CardPageState extends State<CardPage> {
                           return GestureDetector(
                             onTap: () {
                               idCreditCard = listcard.id;
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => EnvioPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => PedidoPage()));
                             },
                             child: Card(
                               elevation: 4.0,
@@ -103,8 +104,8 @@ class _CardPageState extends State<CardPage> {
                           );
                         }).toList(),
               ),),),
-            _buildAddCardButton(icon: Icon(Icons.add), color: Color(0xFF081603),),
-            const SizedBox(height: 15,),
+            //_buildAddCardButton(icon: Icon(Icons.add), color: Color(0xFF081603),),
+            //const SizedBox(height: 15,),
       ],)),)
     );
   }
