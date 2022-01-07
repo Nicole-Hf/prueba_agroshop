@@ -22,14 +22,8 @@ dependencies:
   get: ^4.1.3
   fancy_dialog: ^1.0.3
   pdf: ^3.1.0
-
-  # save file
   path_provider: ^2.0.1
-
-  # open pdf document
   open_file: ^3.1.0
-
-  # format dates for invoice
   intl: ^0.17.0
 
 dev_dependencies:

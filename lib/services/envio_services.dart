@@ -27,4 +27,22 @@ class EnvioService {
     print(response.body);
     return response;
   }
+
+  static Future<http.Response> createFactura() async {
+    Map data = {
+      "nit": carnet,
+      "pago_id": idpago,
+    };
+    var body = json.encode(data);
+
+    var url = Uri.parse(baseURL + 'factura/store');
+    http.Response response = await http.post(
+      url, 
+      headers: headers, 
+      body: body
+    );
+    // ignore: avoid_print
+    print(response.body);
+    return response;
+  }
 }

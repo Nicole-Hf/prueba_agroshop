@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/model/tarjeta.dart';
-import 'package:prueba_agroshop/pages/envio_page.dart';
 import 'package:prueba_agroshop/pages/formpedido_page.dart';
 import 'package:prueba_agroshop/services/api.dart';
 import 'package:prueba_agroshop/variables.dart';

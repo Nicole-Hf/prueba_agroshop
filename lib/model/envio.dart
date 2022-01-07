@@ -6,7 +6,6 @@ class PedidoEnvio {
     required this.departamento,
     required this.ciudad,
     required this.direccionEnvio,
-    //required this.estadoEnvio,
     required this.fechaPedido,
     required this.fechaEntrega,
     required this.monto,
@@ -19,13 +18,10 @@ class PedidoEnvio {
   final String departamento;
   final String ciudad;
   final String direccionEnvio;
-  //final String estadoEnvio;
   final DateTime fechaPedido;
-  final DateTime fechaEntrega; //estimar hasta 5 dias despues
+  final DateTime fechaEntrega; 
   final double monto;
   final String telfCliente;
-
-  //esto no manejo bien
 
   PedidoEnvio.fromJson(Map json) 
     : id = json['id'],
@@ -34,7 +30,6 @@ class PedidoEnvio {
       departamento = json['departamento'],
       ciudad = json['ciudad'],
       direccionEnvio = json['direccionEnvio'],
-      //estadoEnvio = json['estado_Envio'],
       fechaPedido = json['fechaPago'],
       fechaEntrega = json['fechaEnvio'],
       monto = json['monto'],
@@ -48,7 +43,6 @@ class PedidoEnvio {
       "departamento": departamento,
       "ciudad": ciudad,
       "direccionEnvio": direccionEnvio,
-      //"estado_Envio": estadoEnvio,
       "fechaPago": fechaPedido,
       "fechaEnvio": fechaEntrega,
       "monto": monto,
@@ -63,7 +57,6 @@ class PedidoEnvio {
         departamento: json['departamento'],
         ciudad: json['ciudad'],
         direccionEnvio: json['direccionEnvio'],
-        //estadoEnvio: json['estado_Envio'],
         fechaPedido: json['fechaPago'],
         fechaEntrega: json['fechaEnvio'],
         monto: json['monto'],
@@ -77,7 +70,6 @@ class PedidoEnvio {
         "departamento": departamento,
         "ciudad": ciudad,
         "direccionEnvio": direccionEnvio,
-        //"estado_Envio": estadoEnvio,
         "fechaPago": fechaPedido,
         "fechaEnvio": fechaEntrega,
         "monto": monto,

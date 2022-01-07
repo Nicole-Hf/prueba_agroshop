@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         idClienteAutentificado = dataUser['cliente'];
         idCarritoCliente = dataUser['carrito'];
         idWishlistCliente = dataUser['wishlist'];
+        carnet = dataUser['ci'];
         Navigator.push(
             context,
             MaterialPageRoute(

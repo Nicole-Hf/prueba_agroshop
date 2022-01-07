@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/home_page.dart';
-import 'package:prueba_agroshop/pages/factura_page.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
 import 'package:prueba_agroshop/services/envio_services.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
@@ -30,8 +29,13 @@ class _PedidoPageState extends State<PedidoPage> {
     // ignore: unused_local_variable
     http.Response response = await EnvioService.createEnvio(_departamento, _ciudad, _direccion, _fecha, _telefono);
     http.Response responseCart = await CartService.createCart();
+    http.Response responseFact = await EnvioService.createFactura();
+    var dataEnvio = json.decode(response.body);
+    idpago = dataEnvio['id'];
     var dataCart = json.decode(responseCart.body);
     idCarritoCliente = dataCart['id'];
+    var dataFact = json.decode(responseFact.body);
+    idFactura = dataFact['id'];
 
     Navigator.push(context,
       MaterialPageRoute(builder: (BuildContext context) => const HomePage(),));
@@ -54,6 +58,7 @@ class _PedidoPageState extends State<PedidoPage> {
             key: _formKey,
             child: Column(
               children: <Widget>[
+                const SizedBox(height: 30,),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: "Departamento", 
