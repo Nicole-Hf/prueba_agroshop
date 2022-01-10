@@ -5,15 +5,17 @@ import 'package:prueba_agroshop/variables.dart';
 
 class EnvioService {
   static Future<http.Response> createEnvio(String departamento,
-      String ciudad, String direccion, String fecha, String telefono) async {
+      String ciudad, String direccion, String fecha, String telefono, String nit) async {
     Map data = {
       "carrito_id": idCarritoCliente,
       "tarjeta_id": idCreditCard,
       "departamento": departamento,
       "ciudad": ciudad,
       "direccionEnvio": direccion,
-      "fechaPago": fecha,
+      //"fechaPago": fecha,
+      "fechaEnvio": fecha,
       "telfCliente": telefono,
+      "nit": nit,
     };
     var body = json.encode(data);
 
@@ -30,7 +32,6 @@ class EnvioService {
 
   static Future<http.Response> createFactura() async {
     Map data = {
-      "nit": carnet,
       "pago_id": idpago,
     };
     var body = json.encode(data);
@@ -42,6 +43,7 @@ class EnvioService {
       body: body
     );
     // ignore: avoid_print
+    print("error3");
     print(response.body);
     return response;
   }

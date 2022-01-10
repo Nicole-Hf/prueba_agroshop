@@ -15,7 +15,7 @@ class PdfPage extends StatefulWidget {
 }
 
 class _PdfPageState extends State<PdfPage> {
-  var factura = <Factura>[];
+  late Factura factura;
 
   @override
   void initState() {
@@ -31,8 +31,8 @@ class _PdfPageState extends State<PdfPage> {
   _initData() async {
     await CallApi().getPublicData("factura/$idFactura").then((response) {
       setState(() {
-        Iterable list = json.decode(response.body);
-        factura = list.map((model) => Factura.fromJson(model)).toList();
+        factura = json.decode(response.body);
+        //factura = list.map((model) => Factura.fromJson(model)).toList();
       });
     });
   }
@@ -54,27 +54,34 @@ class _PdfPageState extends State<PdfPage> {
               children: <Widget>[
                 const SizedBox(height: 48),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(40)),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(40)),
                   // ignore: prefer_const_constructors
-                  child: FittedBox(child: Text('Invoice PDF', style: TextStyle(fontSize: 20, color: Colors.white),),),          
+                  child: FittedBox(
+                    child: Text(
+                      'Invoice PDF',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                  ),
                   onPressed: () async {
-                    final date = DateTime.now();               
-                    final invoice = Factura(
-                      nroFactura: factura[1].nroFactura, 
-                      codControl: factura[1].codControl,
-                      fecha: date,
-                      nit: factura[1].nit,
-                      total: factura[1].total,
-                      items: [
+                    print("error4");
+                    final date = DateTime.now();
+                    final invoice = Factura(                 
+                      fecha: factura.fecha,
+                      nit: factura.nit,
+                      total: factura.total,
+                      /*items: [
                         FacturaItem(
                           nombre: 'Coffee',
                           cantidad: 4,
                           subtotal: 3,
                         ),
-                      ], id: factura[1].id, pagoID: factura[1].pagoID,
+                      ],*/
+                      id: factura.id,
+                      pagoID: factura.pagoID,
                     );
-                    final pdfFile = await PdfInvoiceApi.generate(invoice);
-                    PdfApi.openFile(pdfFile);
+                    //final pdfFile = await PdfInvoiceApi.generate(invoice);
+                    //PdfApi.openFile(pdfFile);
                   },
                 ),
               ],

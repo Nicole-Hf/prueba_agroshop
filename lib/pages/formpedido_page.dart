@@ -1,9 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/home_page.dart';
+import 'package:prueba_agroshop/pages/pdf_page.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
 import 'package:prueba_agroshop/services/envio_services.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
@@ -23,20 +26,20 @@ class _PedidoPageState extends State<PedidoPage> {
   String _direccion = '';
   String _fecha = '';
   String _telefono = '';
+  String _nit = '';
   final _formKey = GlobalKey<FormState>();
 
   createEnvioPressed() async {
     // ignore: unused_local_variable
-    http.Response response = await EnvioService.createEnvio(_departamento, _ciudad, _direccion, _fecha, _telefono);
+    http.Response response = await EnvioService.createEnvio(_departamento, _ciudad, _direccion, _fecha, _telefono, _nit);
     http.Response responseCart = await CartService.createCart();
-    http.Response responseFact = await EnvioService.createFactura();
     var dataEnvio = json.decode(response.body);
     idpago = dataEnvio['id'];
+    print(idpago);
     var dataCart = json.decode(responseCart.body);
     idCarritoCliente = dataCart['id'];
-    var dataFact = json.decode(responseFact.body);
-    idFactura = dataFact['id'];
-
+    print(idCarritoCliente);
+    
     Navigator.push(context,
       MaterialPageRoute(builder: (BuildContext context) => const HomePage(),));
   }
@@ -99,6 +102,14 @@ class _PedidoPageState extends State<PedidoPage> {
                     labelText: "Celular", icon: Icon(Icons.call)),
                   onChanged: (value) {
                     _telefono = value;
+                  },
+                ),
+                const SizedBox(height: 30,),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: "NIT/CI", icon: Icon(Icons.card_membership)),
+                  onChanged: (value) {
+                    _nit = value;
                   },
                 ),
                 const SizedBox(height: 30,),

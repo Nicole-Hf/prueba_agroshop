@@ -10,6 +10,7 @@ class PedidoEnvio {
     required this.fechaEntrega,
     required this.monto,
     required this.telfCliente,
+    required this.nit
   });
 
   final int id;
@@ -22,6 +23,7 @@ class PedidoEnvio {
   final DateTime fechaEntrega; 
   final double monto;
   final String telfCliente;
+  final String nit;
 
   PedidoEnvio.fromJson(Map json) 
     : id = json['id'],
@@ -33,7 +35,8 @@ class PedidoEnvio {
       fechaPedido = json['fechaPago'],
       fechaEntrega = json['fechaEnvio'],
       monto = json['monto'],
-      telfCliente = json['telfCliente'];
+      telfCliente = json['telfCliente'],
+      nit = json['nit'];
 
   Map toJson() {
     return {
@@ -47,6 +50,7 @@ class PedidoEnvio {
       "fechaEnvio": fechaEntrega,
       "monto": monto,
       "telfCliente": telfCliente,
+      "nit": nit,
     };
   }
 
@@ -61,6 +65,7 @@ class PedidoEnvio {
         fechaEntrega: json['fechaEnvio'],
         monto: json['monto'],
         telfCliente: json['telfCliente'],
+        nit: json['nit'],
       );
 
   Map<String, dynamic> toMap() => {
@@ -74,5 +79,6 @@ class PedidoEnvio {
         "fechaEnvio": fechaEntrega,
         "monto": monto,
         "telfCliente": telfCliente,
+        "nit": nit,
       };
 }

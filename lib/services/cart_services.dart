@@ -88,7 +88,7 @@ class CartService {
 
   static Future<http.Response> createCart() async {
     Map data = {
-      "cliente_id": idCarritoCliente,
+      "cliente_id": idClienteAutentificado,
       "monto": null,
       "estado": null,
     };

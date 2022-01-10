@@ -1,4 +1,4 @@
-import 'dart:io';
+/*import 'dart:io';
 
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -38,7 +38,7 @@ class PdfInvoiceApi {
                 width: 50,
                 child: BarcodeWidget(
                   barcode: Barcode.qrCode(),
-                  data: invoice.nroFactura.toString(),
+                  data: invoice.id.toString(),
                 ),
               ),
             ],
@@ -68,7 +68,7 @@ class PdfInvoiceApi {
       'Invoice Date:',
     ];
     final data = <String>[
-      info.nroFactura.toString(),
+      info.id.toString(),
       Utils.formatDate(info.fecha),
     ];
 
@@ -91,7 +91,7 @@ class PdfInvoiceApi {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 0.8 * PdfPageFormat.cm),
-          Text(invoice.codControl),
+          //Text(invoice.codControl),
           SizedBox(height: 0.8 * PdfPageFormat.cm),
         ],
       );
@@ -199,4 +199,4 @@ class PdfInvoiceApi {
       ),
     );
   }
-}
+}*/
