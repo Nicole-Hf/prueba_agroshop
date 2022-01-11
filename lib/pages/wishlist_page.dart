@@ -61,7 +61,7 @@ class _WishlistPageState extends State<WishlistPage> {
               child: SingleChildScrollView(
                 child: articles.isEmpty
                   // ignore: prefer_const_constructors
-                  ? CircularProgressIndicator()
+                  ? Center(child: CircularProgressIndicator())
                   : Column(
                       children: articles.map((article) {
                         debugPrint(article.imagen.toString());

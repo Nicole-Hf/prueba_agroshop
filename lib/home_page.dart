@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prueba_agroshop/datas/menu_items.dart';
 import 'package:prueba_agroshop/model/menu_item.dart';
+import 'package:prueba_agroshop/pages/invoices_page.dart';
 import 'package:prueba_agroshop/pages/onboarding_page.dart';
 import 'package:prueba_agroshop/pages/cart_page.dart';
 import 'package:prueba_agroshop/pages/producto_page.dart';
@@ -23,10 +24,7 @@ class _HomePageState extends State<HomePage> {
     ProductoPage(),
     WishlistPage(),
     // ignore: prefer_const_constructors
-    Text(
-      'Index 2: Mis Pedidos',
-      style: optionStyle,
-    ),
+    InvoicePage(),
     CartPage(),
   ];
 
