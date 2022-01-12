@@ -3,8 +3,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:prueba_agroshop/model/factura.dart';
 import 'package:prueba_agroshop/model/factura_comp.dart';
 import 'package:prueba_agroshop/services/api.dart';
+import 'package:prueba_agroshop/services/pdf_api.dart';
+import 'package:prueba_agroshop/services/pdf_factura.dart';
 import 'package:prueba_agroshop/variables.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -17,7 +20,7 @@ class InvoicePage extends StatefulWidget {
 }
 
 class _InvoicePageState extends State<InvoicePage> {
-  var facturas = <FacturaComp>[];
+  var facturas = <Factura>[];
 
   @override
   void initState() {
@@ -30,10 +33,10 @@ class _InvoicePageState extends State<InvoicePage> {
   }
 
   _initData() async {
-    await CallApi().getPublicData("factura/$idClienteAutentificado").then((response) {
+    await CallApi().getPublicData("getinvoice/$idClienteAutentificado").then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
-        facturas = list.map((model) => FacturaComp.fromJson(model)).toList();
+        facturas = list.map((model) => Factura.fromJson(model)).toList();
       });
     });
   }
@@ -41,8 +44,7 @@ class _InvoicePageState extends State<InvoicePage> {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Invoice Page'),),
+    return Scaffold(     
       body: Container(
         color: Colors.white,
         child: SafeArea(
@@ -69,8 +71,14 @@ class _InvoicePageState extends State<InvoicePage> {
                             cells: [                          
                               DataCell(Text(data.id.toString())),
                               DataCell(Text(data.fecha.toString())),
-                              DataCell(Text(data.monto.toString())),
-                              DataCell(IconButton(onPressed: () {}, icon: Icon(Icons.document_scanner))),
+                              DataCell(Text(data.total.toString())),
+                              DataCell(IconButton(
+                                onPressed: () async {
+                                  idFactura = data.id;                             
+                                  final pdfFile = await PdfInvoiceApi.generate(data);
+                                  PdfApi.openFile(pdfFile);
+                                }, 
+                                icon: Icon(Icons.print))),
                           ])).toList(),
                         ),
                       ),

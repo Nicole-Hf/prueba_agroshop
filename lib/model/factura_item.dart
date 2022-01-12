@@ -7,7 +7,7 @@ class FacturaItem{
 
   final String nombre;
   final int cantidad;
-  final double subtotal;
+  final String subtotal;
 
   factory FacturaItem.fromMap(Map<String, dynamic> json) => FacturaItem(
     nombre: json["nombre"],

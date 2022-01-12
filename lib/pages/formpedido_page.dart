@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:prueba_agroshop/home_page.dart';
-import 'package:prueba_agroshop/pages/pdf_page.dart';
 import 'package:prueba_agroshop/services/cart_services.dart';
 import 'package:prueba_agroshop/services/envio_services.dart';
 import 'package:prueba_agroshop/utils/rounded_button.dart';
@@ -35,10 +34,8 @@ class _PedidoPageState extends State<PedidoPage> {
     http.Response responseCart = await CartService.createCart();
     var dataEnvio = json.decode(response.body);
     idpago = dataEnvio['id'];
-    print(idpago);
     var dataCart = json.decode(responseCart.body);
     idCarritoCliente = dataCart['id'];
-    print(idCarritoCliente);
     
     Navigator.push(context,
       MaterialPageRoute(builder: (BuildContext context) => const HomePage(),));

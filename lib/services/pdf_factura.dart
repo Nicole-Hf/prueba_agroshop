@@ -1,11 +1,11 @@
-/*import 'dart:io';
+import 'dart:io';
 
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/widgets.dart';
 import 'package:prueba_agroshop/model/factura.dart';
+import 'package:prueba_agroshop/model/factura_comp.dart';
 import 'package:prueba_agroshop/services/pdf_api.dart';
-import 'package:prueba_agroshop/utils/date.dart';
 import 'package:prueba_agroshop/variables.dart';
 
 class PdfInvoiceApi {
@@ -16,60 +16,60 @@ class PdfInvoiceApi {
       build: (context) => [
         buildHeader(invoice),
         SizedBox(height: 3 * PdfPageFormat.cm),
-        buildTitle(invoice),
+        buildTitle(),
         buildInvoice(invoice),
         Divider(),
         buildTotal(invoice),
       ],
     ));
 
-    return PdfApi.saveDocument(name: 'my_invoice.pdf', pdf: pdf);
+    return PdfApi.saveDocument(name: 'factura-$idFactura.pdf', pdf: pdf);
   }
 
   static Widget buildHeader(Factura invoice) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 1 * PdfPageFormat.cm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 50,
-                width: 50,
-                child: BarcodeWidget(
-                  barcode: Barcode.qrCode(),
-                  data: invoice.id.toString(),
-                ),
-              ),
-            ],
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    SizedBox(height: 1 * PdfPageFormat.cm),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          height: 50,
+          width: 50,
+          child: BarcodeWidget(
+            barcode: Barcode.qrCode(),
+            data: invoice.id.toString(),
           ),
-          SizedBox(height: 1 * PdfPageFormat.cm),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildCustomerAddress(),
-              buildInvoiceInfo(invoice),
-            ],
-          ),
-        ],
-      );
+        ),
+      ],
+    ),
+    SizedBox(height: 1 * PdfPageFormat.cm),
+    Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        buildCustomerAddress(invoice),
+        buildInvoiceInfo(invoice),
+      ],
+    ),],
+  );
 
-  static Widget buildCustomerAddress() => Column(
+  static Widget buildCustomerAddress(Factura invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(nameUserAutentificado, style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(invoice.nit, style: TextStyle(fontWeight: FontWeight.bold)),
         ],
       );
 
   static Widget buildInvoiceInfo(Factura info) {
     final titles = <String>[
-      'Invoice Number:',
-      'Invoice Date:',
+      'Invoice Number: ',
+      'Invoice Date: ',
     ];
     final data = <String>[
       info.id.toString(),
-      Utils.formatDate(info.fecha),
+      info.fecha.toString(),
     ];
 
     return Column(
@@ -83,27 +83,22 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget buildTitle(Factura invoice) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'INVOICE',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-          //Text(invoice.codControl),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-        ],
-      );
-
+  static Widget buildTitle() => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('Agroshop', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+      SizedBox(height: 0.8 * PdfPageFormat.cm),
+    ],
+  );
+  
   static Widget buildInvoice(Factura invoice) {
     final headers = [
       'nombre',
       'cantidad',
       'subtotal',
     ];
+
     final data = invoice.items.map((item) {
-  
       return [
         item.nombre,
         '${item.cantidad}',
@@ -124,14 +119,11 @@ class PdfInvoiceApi {
         1: Alignment.centerRight,
         2: Alignment.centerRight,
         3: Alignment.centerRight,
-        4: Alignment.centerRight,
-        5: Alignment.centerRight,
       },
     );
   }
 
   static Widget buildTotal(Factura invoice) {
-  
     return Container(
       alignment: Alignment.centerRight,
       child: Row(
@@ -199,4 +191,4 @@ class PdfInvoiceApi {
       ),
     );
   }
-}*/
+}
